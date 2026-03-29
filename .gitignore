@@ -1,0 +1,11 @@
+data/*.csv
+data/*.parquet
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+*.egg-info/
+.env
+*.DS_Store
+tmp_*.py
+paper/bond_family_na.pdf
+prompts/
