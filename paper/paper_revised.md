@@ -1,139 +1,165 @@
-﻿---
+---
 title: Does the Bond Market Need a Bank Account?
 subtitle: Forward Measure Consistency and Interest Rate Pricing
 author: Shaohui Wang^[shaohui.wang@hotmail.com]
-date: March 2026
+date: April 2026
 ---
 
 
 # Abstract
 
-As Samuelson (1938) asked whether observed consumer choices imply the
-existence of a utility function, we ask whether observed bond prices
-imply the existence of a risk-neutral measure. In a bond market, each
-tradable zero-coupon bond provides a natural numéraire and pricing
-measure — the T-forward measure $Q^T$. Practitioners use these local
-frameworks daily. We develop forward-measure consistency — the
-requirement that independently calibrated local pricing measures
-cohere across maturities — as a diagnostic for term-structure model
-validity that conventional goodness-of-fit metrics do not provide.
+The standard no-arbitrage framework for bond markets assumes the
+existence of a tradable bank account $B(t)$ as universal numéraire.
+But $B$ is not directly traded — it must be synthesized from
+zero-coupon bonds via a rolling strategy that, in continuous time,
+requires rebalancing through uncountably many maturities. Meanwhile,
+practitioners price and hedge using T-forward measures $Q^T$, each
+derived from a single tradable bond, without invoking $B$ at all.
 
-We contribute three things. First, a discrete-time Bond-Based FTAP
-showing the family is automatically consistent, with the bank account
-emerging as a self-financing rolling strategy — a proof of concept that
-the question has substance. Second, a precise formulation of the
-continuous-time consistency problem, with the hypothesis that the HJM
-drift condition is the consistency condition and an analysis of why
-failure is plausible (the diagonal singularity of the forward rate
-surface). Third, an empirical test: independent calibration of local
-pricing measures for different maturity segments of the EUR government
-bond market, checking whether the implied market prices of risk agree
-across segments. The test rejects consistency for most segment pairs;
-a three-factor comparison separates model inadequacy from residual
-inconsistency aligned with known market segmentation.
+This raises a question: does the family $\{Q^T\}$ of local pricing
+measures, built from tradable bonds alone, necessarily assemble into
+a single global measure $Q$ — or is $Q$ (and therefore $B$) an
+additional assumption?
 
-Our question belongs to the model-free tradition: start from observable
-market data, ask whether the theoretical framework is supported. The
-question itself — does $\{Q^T\}$ cohere? — is model-free and, to our
-knowledge, new in this direction. The empirical test is a first
-implementation within the Gaussian HJM class; it establishes that the
-question has empirical content but does not claim to be definitive.
-Alternative model classes, model-free tests, and cross-currency
-evidence could strengthen, qualify, or overturn the findings.
+We formalize this question and show it has substance. In discrete
+time, consistency is automatic: the bank account emerges as a
+self-financing rolling strategy, and we prove a four-way FTAP
+equivalence as proof of concept. In continuous time, we provide a
+precise, $Q$-free definition of forward-measure consistency
+(Definition 3.2.1) and state the question in a falsifiable form. We
+identify the diagonal singularity of the forward rate surface as a
+possible mechanism for failure, though establishing whether it
+actually occurs in bond markets remains open.
+
+To demonstrate that the question is not vacuous, we conduct a
+descriptive empirical exercise: independent calibration of Gaussian
+HJM models on different maturity segments of the EUR government bond
+market. The implied market prices of risk differ systematically
+across segments, in a pattern that synthetic controls cannot
+replicate. This does not answer the question — the observed pattern
+is consistent with either absence of a single $Q$ or the inadequacy
+of the model class used — but it establishes that the question has
+empirical content.
 
 
 
 # 1. Introduction
 
-## 1.1 Bottom-Up Pricing
+## 1.1 The Question
 
 The foundational insight of Black and Scholes (1973) and Merton (1973)
 is that derivative prices are determined by replication using tradable
-assets. The risk-neutral measure Q, introduced by Harrison and Kreps
-(1979), encodes this replication logic mathematically but is not the
-financial content itself (for a comprehensive treatment, see Bingham
-and Kiesel 2004).
+assets. The risk-neutral measure $Q$, introduced by Harrison and Kreps
+(1979), encodes this replication logic mathematically (for a
+comprehensive treatment, see Bingham and Kiesel 2004).
 
-In bond markets, the tradable assets are zero-coupon bonds $p(\cdot,T)$. The
-bank account $B(t) = \exp\left( \int_{0}^{t} r(s) \, ds \right)$ — the standard numéraire of the
-FTAP — is not directly traded. Practitioners already work around this:
-to price a caplet at T, they use the T-bond as numéraire and $Q^T$ as
-pricing measure. Each operation is faithful to the Black-Scholes-Merton
-logic: replicate using tradable instruments, extract the price.
+In bond markets, the tradable assets are zero-coupon bonds
+$p(\cdot,T)$. The bank account
+$B(t) = \exp\left( \int_{0}^{t} r(s) \, ds \right)$ — the standard
+numéraire of the FTAP — is not directly traded. To construct it, one
+must execute a rolling strategy: hold the just-maturing bond, roll
+the proceeds into the next. In discrete time, this is a finite,
+self-financing strategy using traded bonds. In continuous time, it
+requires continuous rebalancing through an uncountable family of
+maturities — and the convergence of this strategy is not guaranteed
+by the well-behavedness of individual bond prices.
 
-This paper takes the practitioners' approach seriously and asks: is the
-resulting family $\{Q^T\}$ of local pricing frameworks globally consistent?
+Practitioners already work without $B$: to price a caplet at $T$,
+they use the T-bond as numéraire and $Q^T$ as pricing measure. Each
+operation is faithful to the Black-Scholes-Merton logic — replicate
+using tradable instruments, extract the price. This paper takes the
+practitioners' approach seriously and asks:
 
-## 1.2 The Bottom-Up Tradition
+> *Does the family $\{Q^T\}$ of local pricing measures, derived from
+> tradable bonds, necessarily cohere into a single global measure $Q$?*
 
-Our question belongs to a well-established methodology. Samuelson (1938)
-asked whether observed choices imply preferences exist — founding
-revealed preference theory. Hobson (1998) and the model-free finance
-programme (Davis and Hobson 2007, Acciaio et al. 2013) ask what can be
-inferred from observed option prices without assuming a model. Balbás,
-Ibáñez, and López (2002) use projective limits of measure families to
-characterize no-arbitrage over infinite time horizons.
+If yes, the bank account is a derived object — it emerges from the
+consistency of local pricing, and the standard FTAP is confirmed from
+the bottom up. If no, the standard theory requires an assumption
+(the existence of $Q$ and $B$) that goes beyond what tradable
+instruments can deliver.
 
-In each case, the direction is bottom-up: start from observables, ask
-whether the theoretical construct is forced by the data. Our question
-specializes this to bond markets, where the specific structure — maturity
-condition p(T,T)=1, the rolling construction, the forward measure family
-— gives the question concrete financial content. The question itself is
-model-free; the empirical test we develop (Section 5) is parametric,
-operating within the Gaussian HJM class. This is a scope limitation, not
-a methodological contradiction — the test is a first implementation, not
-the only possible one.
+In discrete time, we show the answer is yes: consistency is automatic
+and $B$ is constructible (Section 2). In continuous time, we
+formalize the question precisely and leave it open (Section 3). We
+then present a descriptive empirical exercise showing the question
+has empirical content (Section 4).
 
-## 1.3 Related Work
+## 1.2 Related Work
 
 Musiela and Rutkowski (1997) and Döberlein, Schweizer, and Stricker
 (2000) proved uniqueness of the implied savings account — but took
 existence as given. Our question is the complement: existence given
 local data.
 
-Henrard (2007) identified the symptom of forward measure inconsistency:
-LIBOR discounting gives wrong prices post-2007. Morini (2009) identified
-the puzzle: why did the single curve break? Both diagnose and treat
-within the existing framework. We identify the underlying condition: the
-single-curve assumption IS the assumption that $\{Q^T\}$ coheres.
+The closest existing work is Klein, Schmidt, and Teichmann (2016),
+who investigate bond markets where "the bank account process is not
+a valid numéraire or does not exist at all." They argue this is "not
+the exception but rather the rule" when starting from terminal bonds
+as numéraires. Using large financial market methods, they prove that
+no asymptotic free lunch (NAFL) is equivalent to the existence of an
+equivalent local martingale measure with respect to a terminal bond,
+and they construct a generalized bank account as a limit of convex
+combinations of roll-over bonds. Their work establishes the
+theoretical framework for bond markets without a classical bank
+account. Our question starts from a different point — pairwise
+measure consistency (Definition 3.2.1) rather than a no-arbitrage
+condition on trading strategies — and the relationship between these
+two starting points is, to our knowledge, not established.
+Klein-Schmidt-Teichmann's generalized bank account is a limit object
+that may differ from the classical $B$; whether pairwise consistency
+of $\{Q^T\}$ implies NAFL (or vice versa) is an open question that
+connects our work to theirs.
 
 Herdegen (2017) develops a numéraire-independent FTAP for general
-markets. Our question exploits bond-specific structure that his framework
-does not use.
+markets. Whether his condition $\text{NA}^{\text{ni}}$ coincides
+with, is weaker than, or is stronger than our Bond-Family condition
+(BF) in continuous-time bond markets is, to our knowledge, open.
 
-## 1.4 Contributions and Structure
+A continuous-time bond market with a continuum of maturities is a
+large financial market in the sense of Cuchiero, Klein, and Teichmann
+(2016), De Donno (2004), Takaoka and Schweizer (2014), and Carmona
+and Tehranchi (2006). Our question — does $\{Q^T\}$ cohere into a
+single $Q$? — is related to the existence of an equivalent martingale
+measure in such markets. We note the connection but do not pursue it
+formally; the bond-specific structure may give the question a
+different character from the general large-market problem, though we
+cannot establish this precisely.
 
-We contribute a diagnostic framework, a proof of concept, and a test.
+Filipović (2001, 2009) studies consistency problems for HJM models —
+when HJM dynamics preserve the shape of the yield curve within a
+given parametric family. This is a related but distinct question:
+Filipović asks whether a model is internally consistent with a family
+of initial curves, while we ask whether independently calibrated
+local measures are mutually consistent. The tools developed in
+Filipović's framework (function spaces, regularity conditions) may
+be relevant to resolving our question, but we do not establish the
+connection formally.
 
-*The diagnostic* (Sections 3, 5): forward-measure consistency —
-whether independently calibrated local pricing measures cohere across
-maturities — provides a model validation tool with discriminating
-power that standard goodness-of-fit metrics lack. We hypothesize that
-the HJM drift condition is the formal consistency condition and
-analyze why failure is plausible.
+Henrard (2007) and Morini (2009) identified the post-2007 failure of
+single-curve pricing. The multi-curve literature (Filipović and Trolle
+2013, Crépey et al. 2015, Grbac and Runggaldier 2015) addresses a
+different mechanism — counterparty credit risk in interbank rates —
+but the conceptual parallel is suggestive: the single-curve assumption
+is the assumption that $\{Q^T\}$ coheres.
 
-*The proof of concept* (Section 2): in discrete time, consistency is
-automatic. The result is elementary — its value is diagnostic,
-identifying the precise point (the finite chain rule) where the
-argument uses discreteness.
+In retrospect, our question belongs to what has been called the
+bottom-up or model-free tradition in mathematical finance: Samuelson
+(1938) asked whether observed choices imply preferences exist; Hobson
+(1998) and the model-free finance programme (Davis and Hobson 2007,
+Acciaio et al. 2013) ask what can be inferred from observed prices
+without assuming a model; Balbás, Ibáñez, and López (2002) use
+projective limits of measure families to characterize no-arbitrage
+over infinite horizons. We recognized this connection during the
+development of the paper, not at the outset.
 
-*The test* (Section 5): independent calibration of local pricing
-measures for different maturity segments of the EUR government bond
-market reveals that the implied market prices of risk do not cohere
-across the full maturity spectrum. A three-factor comparison separates
-model inadequacy from residual inconsistency, demonstrating both uses
-of the diagnostic.
+## 1.3 Structure
 
-The question (Section 3) is intended as a permanent contribution: it
-is well-posed, falsifiable, and — to our knowledge — new in the
-$\{Q^T\} \to Q$ direction. The test (Section 5) is a first
-implementation within the Gaussian HJM class; it establishes that the
-question has empirical content but does not claim to be definitive.
-Alternative model classes, model-free tests, and cross-currency
-evidence could strengthen, qualify, or overturn the empirical findings.
-
-Section 4 connects to the multi-curve phenomenon, model risk, and
-Solvency II. Section 6 identifies directions for future work.
+Section 2 establishes the proof of concept: in discrete time,
+forward-measure consistency is automatic. Section 3 formalizes the
+continuous-time question. Section 4 presents a descriptive empirical
+exercise demonstrating the question has empirical content. Section 5
+identifies directions for future investigation.
 
 
 
@@ -141,23 +167,25 @@ Solvency II. Section 6 identifies directions for future work.
 
 ## 2.1 Setup
 
-Let $(\Omega, \mathcal{F}, (\mathcal{F}_t)_{t=0,\ldots,N}, \mathbb{P})$ be a filtered probability space. The
-market consists of default-free zero-coupon bonds $p(t,T)$ with $p(T,T) = 1$
-and $p(t,T) > 0$, plus risky assets $X^1,\ldots,X^d$. No bank account is
-assumed.
+Let $(\Omega, \mathcal{F}, (\mathcal{F}_t)_{t=0,\ldots,N}, \mathbb{P})$
+be a filtered probability space. The market consists of default-free
+zero-coupon bonds $p(t,T)$ with $p(T,T) = 1$ and $p(t,T) > 0$, plus
+risky assets $X^1,\ldots,X^d$. No bank account is assumed.
 
-A trading strategy is a predictable process specifying holdings in each
-asset. It is self-financing if portfolio value changes arise solely from
-price movements. An arbitrage is a zero-cost self-financing strategy
-producing $V_N \geq 0$ a.s. with $\mathbb{P}(V_N > 0) > 0$.
+A trading strategy is a predictable process specifying holdings in
+each asset. It is self-financing if portfolio value changes arise
+solely from price movements. An arbitrage is a zero-cost
+self-financing strategy producing $V_N \geq 0$ a.s. with
+$\mathbb{P}(V_N > 0) > 0$.
 
 ## 2.2 The Rolling Bond Strategy
 
-**Proposition 2.2.1.** Define $B(0) := 1$ and $B(t) := \prod_{s=1}^{t} 1/p(s-1,s)$.
-Then $B$ is the value process of a self-financing strategy holding, during
-each period $(t-1,t]$, exactly $B(t-1)/p(t-1,t)$ units of the just-maturing
-bond $p(\cdot,t)$. The one-period return $1/p(t-1,t)$ is deterministic given
-$F_{t-1}$ — the discrete-time risk-free rate, derived from bonds.
+**Proposition 2.2.1.** Define $B(0) := 1$ and
+$B(t) := \prod_{s=1}^{t} 1/p(s-1,s)$. Then $B$ is the value process
+of a self-financing strategy holding, during each period $(t-1,t]$,
+exactly $B(t-1)/p(t-1,t)$ units of the just-maturing bond
+$p(\cdot,t)$. The one-period return $1/p(t-1,t)$ is deterministic
+given $\mathcal{F}_{t-1}$.
 
 ## 2.3 The Four Equivalences
 
@@ -166,633 +194,490 @@ are equivalent:
 
 **(NA)** No arbitrage exists in the bond market.
 
-**(EMM)** $\exists Q \sim P$ such that $S(t)/B(t)$ is a $Q$-martingale for all
-traded assets $S$.
+**(EMM)** $\exists Q \sim P$ such that $S(t)/B(t)$ is a $Q$-martingale
+for all traded assets $S$.
 
-**(Wang)** $\exists Q \sim P$ such that $E^Q[R_t^S \mid F_{t-1}]$ equals the
-just-maturing bond return $[1 - p(t-1,t)]/p(t-1,t)$ for all traded $S$.
+**(RF)** $\exists Q \sim P$ such that
+$E^Q[R_t^S \mid \mathcal{F}_{t-1}]$ equals the just-maturing bond
+return $[1 - p(t-1,t)]/p(t-1,t)$ for all traded $S$.
 
-**(BF)** For each $T \in \{1,\ldots,N\}$, $\exists Q^T \sim P$ such that $S(t)/p(t,T)$
-is a $Q^T$-martingale for all traded assets $S$ and $t \le T$.
+**(BF)** For each $T \in \{1,\ldots,N\}$, $\exists Q^T \sim P$ such
+that $S(t)/p(t,T)$ is a $Q^T$-martingale for all traded assets $S$
+and $t \le T$.
 
 Moreover, the forward measures satisfy the consistency relation
 
-  $$\frac{dQ^{T_1}}{dQ^{T_2}}\bigg|_{F_{T_1}} = \frac{p(0,T_2)}{p(0,T_1) \cdot p(T_1,T_2)}   \quad (2.1)$$
+$$\frac{dQ^{T_1}}{dQ^{T_2}}\bigg|_{\mathcal{F}_{T_1}} = \frac{p(0,T_2)}{p(0,T_1) \cdot p(T_1,T_2)}   \quad (2.1)$$
 
 involving only bond prices, with no reference to $B$.
 
-*Proof sketch.* $(\text{NA}) \iff (\text{EMM})$: Rolling construction makes $B$ tradable;
-Harrison-Pliska (1981) applies. $(\text{EMM}) \iff (\text{Wang})$: Algebraic
-reformulation (Wang 2008). $(\text{EMM}) \Rightarrow (\text{BF})$: Bayes' formula with density
-$Z^T_t := p(t,T)/[B(t) \cdot p(0,T)]$. $(\text{BF}) \Rightarrow (\text{NA})$: Under $Q^N$, $V^\varphi_t/p(t,N)$
-is a martingale; $V_0 = 0$ forces $V_N = 0$ a.s. Full proofs in Appendix A. $\quad\square$
+*Proof sketch.* $(\text{NA}) \iff (\text{EMM})$: Rolling construction
+makes $B$ tradable; Harrison-Pliska (1981) applies.
+$(\text{EMM}) \iff (\text{RF})$: Algebraic reformulation — the
+equivalence follows from multiplying both sides of the martingale
+condition by $B(t-1)/S(t-1)$ and using $B(t)/B(t-1) = 1/p(t-1,t)$.
+$(\text{EMM}) \Rightarrow (\text{BF})$: Bayes' formula with density
+$Z^T_t := p(t,T)/[B(t) \cdot p(0,T)]$.
+$(\text{BF}) \Rightarrow (\text{NA})$: Under $Q^N$,
+$V^\varphi_t/p(t,N)$ is a martingale; $V_0 = 0$ forces $V_N = 0$
+a.s. Full proofs in Appendix A. $\quad\square$
 
-**Remark.** The proposition is elementary — its components are standard
-(Harrison-Pliska for $(\text{NA}) \iff (\text{EMM})$, Bayes' formula for the numéraire
-change, Wang 2008 for the algebraic reformulation). Its purpose is to
-establish the four-way equivalence and to identify the precise point
-where the argument uses discreteness: the chain rule across maturity
-triples is a finite number of conditions. This is the point that fails
-in continuous time.
+**Remark.** The proposition assembles standard ingredients
+(Harrison-Pliska for $(\text{NA}) \iff (\text{EMM})$, Bayes' formula
+for the numéraire change, Geman-El Karoui-Rochet 1995 for the
+general framework). Its purpose here is not mathematical novelty but
+to establish the four-way equivalence and to identify the precise
+point where the argument uses discreteness: the chain rule across
+maturity triples is a finite number of conditions. This is the point
+that becomes problematic in continuous time.
 
 ## 2.4 Consistency Is Automatic — But Only in Discrete Time
 
-The consistency relation (2.1) is *implied* by (BF): under $Q^{T_2}$, the
-ratio $p(t,T_1)/p(t,T_2)$ is a martingale whose terminal value determines
-the Radon-Nikodym derivative. The chain rule
+The consistency relation (2.1) is implied by (BF): under $Q^{T_2}$,
+the ratio $p(t,T_1)/p(t,T_2)$ is a martingale whose terminal value
+determines the Radon-Nikodym derivative. The chain rule
 $$\frac{dQ^{T_1}}{dQ^{T_3}} = \frac{dQ^{T_1}}{dQ^{T_2}} \cdot \frac{dQ^{T_2}}{dQ^{T_3}}$$
 is a finite number of conditions, each automatically satisfied.
 
-In continuous time, this becomes an uncountable family. The infinitesimal
-limit $T_2 \downarrow T_1$ involves $\frac{\partial p(T_1,T)}{\partial T}\bigg|_{T=T_1}$, related to the short rate
-$r(T_1) = f(T_1,T_1)$. Automatic consistency is a consequence of finitude,
-not of structure.
+In continuous time, this becomes an uncountable family. Automatic
+consistency is a consequence of finitude, not of structure.
 
 **Remark (Relationship to Herdegen 2017).** In bond markets with
 strictly positive prices, Herdegen's numéraire-independent
-no-arbitrage ($\text{NA}^{\text{ni}}$) coincides with NA. Our Bond-Family
+no-arbitrage ($\text{NA}^{\text{ni}}$) coincides with NA in discrete
+time: with finitely many assets all having strictly positive prices,
+any numéraire is equivalent to any other, and the no-arbitrage
+conditions coincide (Herdegen 2017, Proposition 3.5). Our Bond-Family
 formulation (BF) is the only condition among the four equivalences
-that extends to continuous time without assuming $B$.
+that extends to continuous time without assuming $B$. Whether (BF)
+in continuous time is equivalent to, weaker than, or stronger than
+$\text{NA}^{\text{ni}}$ restricted to bond markets is an open
+question.
 
 
 
-# 3. Continuous Time: The Hypothesis
+# 3. Continuous Time: The Question
 
 ## 3.1 Where the Proof Breaks
 
 In continuous time, the rolling strategy requires trading at every
 instant through uncountably many bonds (cf. Björk et al. 1997,
-Döberlein and Schweizer 2001). The Bond-Family condition survives — each
-$Q^T$ uses only the tradable T-bond — but consistency over a continuum of
-maturities is no longer automatic.
+Döberlein and Schweizer 2001). The Bond-Family condition survives —
+each $Q^T$ uses only the tradable T-bond — but consistency over a
+continuum of maturities is no longer automatic.
 
-## 3.2 The Hypothesis
+## 3.2 Forward-Measure Consistency
 
-**Hypothesis 3.2.1.** In a continuous-time bond market driven by a
-finite-dimensional Brownian motion, the family $\{Q^T\}_{T \in [0,T^*]}$ is
-consistent if and only if the forward rate drift satisfies the HJM
-condition: $\alpha(t,T) = \sigma(t,T) \cdot \int_t^T \sigma(t,s) \, ds$.
+We define the key concept without presupposing $Q$ or $B$.
 
-The "if" direction is standard: the HJM condition ensures existence of
-a martingale measure from which forward measures are derived. The "only
-if" direction — that consistency of the forward measure family *forces*
-the drift condition — is the non-trivial claim, and we leave it as an
-open problem (Section 6). If established, it would mean the HJM drift
-condition is derived from first principles — from the requirement that
-replication-based pricing be coherent across maturities, using only
-tradable assets.
+**Definition 3.2.1 (Forward-Measure Consistency).** Let
+$\{Q^T\}_{T \in \mathcal{T}}$ be a family of probability measures on
+$(\Omega, \mathcal{F})$, each equivalent to $\mathbb{P}$, indexed by a
+set of maturities $\mathcal{T} \subseteq [0, T^*]$. Assume that for
+each $T$, $S(t)/p(t,T)$ is a $Q^T$-local martingale on $[0,T]$ for
+all traded assets $S$, including bonds of all maturities (the
+forward martingale property). The family is *consistent* if for all
+$T_1 < T_2$ in $\mathcal{T}$:
 
-## 3.3 The Diagonal Singularity
+$$\frac{dQ^{T_1}}{dQ^{T_2}}\bigg|_{\mathcal{F}_{T_1}} = \frac{p(0,T_2)}{p(0,T_1) \cdot p(T_1,T_2)}.   \quad (3.1)$$
 
-The bank account requires $r(t) = f(t,t)$ — the diagonal restriction of
-the forward rate surface. Each bond price $p(t,T) = \exp\left(-\int_t^T f(t,s) \, ds\right)$
-involves an integral that smooths irregularities; the short rate is a
-pointwise evaluation with no smoothing. The issue is not the mathematical
-existence of $r(t)$ given sufficient regularity, but whether the bank
-account $B$ — as a portfolio strategy — is replicable from tradable
-bonds. The rolling bond strategy requires continuous rebalancing through
-an uncountable family of maturities, and its convergence is not
-guaranteed by the well-behavedness of individual bond prices.
+Condition (3.1) is not an independent assumption: it follows from the
+forward martingale property applied to the bonds themselves. Under
+$Q^{T_2}$, the ratio $p(t,T_1)/p(t,T_2)$ is a local martingale on
+$[0,T_1]$ with terminal value $1/p(T_1,T_2)$, which determines the
+Radon-Nikodym derivative.
+
+**Remark.** When $\mathcal{T}$ is finite, condition (3.1) suffices:
+Proposition 2.3.1 constructs $Q$ and $B$ from the family. When
+$\mathcal{T}$ is a continuum, (3.1) is necessary but may not be
+sufficient — additional regularity is needed for the projective
+limit across the uncountable index set to exist (cf. Balbás et al.
+2002 for the general framework; Filipović 2001, 2009 for related
+consistency conditions in HJM models). Identifying the minimal
+regularity condition is, to our understanding, the core of the
+mathematical problem.
+
+**Why standard extension theorems do not immediately apply.** A
+natural reaction is that the Kolmogorov extension theorem (or its
+measure-theoretic variants) should resolve the question: given a
+consistent family of finite-dimensional distributions, the theorem
+constructs a measure on the projective limit. However, the pairwise
+consistency condition (3.1) is not of Kolmogorov type. Kolmogorov
+consistency relates measures on *nested sub-σ-algebras* via
+restriction: $\mu_{n+1}|_{\mathcal{F}_n} = \mu_n$. Our condition
+(3.1) relates measures on the *same* σ-algebra $\mathcal{F}$ via
+Radon-Nikodym derivatives determined by bond prices. These are
+structurally different: (3.1) specifies how the measures *reweight*
+each other, not how they *restrict*. The passage from pairwise
+reweighting to a global measure requires constructing a process $B$
+such that each $Q^T$ arises as a change of numéraire from $Q$ — a
+stronger condition than mere compatibility of restrictions. We do
+not know whether existing projective limit frameworks (such as
+Balbás et al. 2002) can be adapted to this setting.
+
+## 3.3 The Question, Precisely Stated
+
+The question of this paper:
+
+> *Given a family $\{Q^T\}_{T \in [0,T^*]}$ satisfying Definition
+> 3.2.1, does there exist a probability measure $Q \sim \mathbb{P}$
+> and a strictly positive adapted process $B$ such that $S(t)/B(t)$
+> is a $Q$-local martingale for all traded assets, with each $Q^T$
+> being the T-forward measure induced by $Q$?*
+
+In discrete time the answer is yes (Section 2). In continuous time
+it is, to our knowledge, open.
+
+We note that in the standard HJM framework driven by
+finite-dimensional Brownian motion, the existence of $Q$ is
+equivalent to the HJM drift condition
+$\alpha(t,T) = \sigma(t,T) \cdot \int_t^T \sigma(t,s) \, ds$. The
+"if" direction is textbook (Heath, Jarrow, and Morton 1992). Whether
+forward-measure consistency *forces* the drift condition — the
+"only if" direction — is the non-trivial question. We state this as
+an open problem, not a hypothesis we are in a position to resolve.
+The restriction to finite-dimensional driving noise is substantive;
+under infinite-dimensional noise (cylindrical Brownian motion), the
+question may take a different form.
+
+## 3.4 A Possible Mechanism for Failure
+
+The bank account requires $r(t) = f(t,t)$ — the diagonal restriction
+of the forward rate surface. Each bond price
+$p(t,T) = \exp\left(-\int_t^T f(t,s) \, ds\right)$ involves an
+integral that smooths irregularities; the short rate is a pointwise
+evaluation with no smoothing. The issue is not the mathematical
+existence of $r(t)$ given sufficient regularity, but whether $B$ —
+as a portfolio strategy — is replicable from tradable bonds.
 
 When the forward rate surface has Hölder regularity $H < 1/2$ in the
 maturity variable, the diagonal restriction may fail to exist even
 though all bond prices and forward measures remain well-defined — a
 classical distinction in functional analysis (the Sobolev trace
 theorem). Gatheral, Jaisson, and Rosenbaum (2018) established that
-*equity* volatility surfaces have $H \approx 0.1$; whether bond
-forward rate surfaces exhibit comparable roughness is open. The
-diagonal singularity is thus a *possible* mechanism for consistency
-failure, not an established one. We present it as motivation for the
-empirical test, not as an independent argument.
+equity volatility processes have $H \approx 0.1$; whether bond
+forward rate surfaces exhibit comparable roughness is, to our
+knowledge, unknown. The diagonal singularity is thus a possible
+mechanism, not an established one.
 
-## 3.4 Positioning
-
-The standard approach goes $Q \to \{Q^T\}$: top-down, existence by assumption.
-Musiela-Rutkowski (1997) and Döberlein-Schweizer (2000) proved uniqueness
-of the implied savings account but took existence as given. We reverse
-the direction: $\{Q^T\} \to Q$, bottom-up, existence as a question. The
-question is model-free in the sense of the bottom-up tradition (Hobson
-1998, Acciaio et al. 2013), with the projective limit methodology of
-Balbás et al. (2002) as the mathematical template. The empirical test
-we develop in Section 5 is parametric — a scope choice, not an
-inherent limitation of the framework.
+We note a logical subtlety: non-existence of the classical short
+rate would imply failure of the bank account construction, but it
+does not by itself imply that the family $\{Q^T\}$ fails to satisfy
+(3.1). The relationship between these two forms of failure is part
+of the open problem.
 
 
 
-# 4. Practical Consequences
+# 4. Empirical Exercise
 
-## 4.1 The Multi-Curve Phenomenon
+## 4.1 Purpose and Limitations
 
-Before 2007, one $Q$, one $B$, apparent consistency. After the crisis,
-LIBOR-OIS spreads blew out and the market fragmented. Henrard (2007)
-identified the symptom, Morini (2009) the puzzle. Our framework
-identifies the underlying condition: the single-curve assumption IS the
-assumption that $\{Q^T\}$ coheres. When it fails, no single numéraire achieves practical coherence
-across the full curve, and the market necessarily fragments (Filipović and Trolle 2013, Crépey
-et al. 2015, Grbac and Runggaldier 2015).
+The preceding sections establish that forward-measure consistency is
+automatic in discrete time but open in continuous time. A natural
+question is whether the issue is purely theoretical or whether it
+has empirical content — whether real bond market data exhibit
+patterns that are relevant to the question.
 
-## 4.2 Model Risk
+We address this with a descriptive exercise, not a formal test of
+whether $Q$ exists. The exercise operates within a specific
+parametric model class (Gaussian HJM with maturity-independent
+market price of risk) and asks whether independently calibrated
+models on different maturity segments produce compatible risk-price
+estimates. Incompatibility is consistent with either (a) absence of
+a single $Q$, or (b) inadequacy of the model class — specifically,
+a single $Q$ with maturity-dependent $\lambda(t,T)$ could produce
+the same pattern (Duffee 2002, Joslin, Singleton, and Zhu 2011).
+We cannot distinguish these alternatives from a single exercise.
+What the exercise can establish is that the question is not vacuous:
+the data exhibit systematic cross-segment patterns that a
+consistency-based diagnostic can detect.
 
-We use continuous-time models to compute discrete-time decisions. If the
-model's forward measure family is consistent, hedge ratios computed from
-it are robust to implementation choices. If inconsistent, hedge ratios
-depend on the calibration window and maturity segment — a form of model
-risk that standard validation does not detect. Standard numerical studies
-of HJM discretization (e.g., Krivko and Tretyakov 2011) treat
-non-convergence as an approximation problem. We treat it as a diagnostic
-of structural inconsistency — a distinction that arises only from the
-bottom-up perspective.
-
-## 4.3 Solvency II
-
-Market-consistent valuation assumes a risk-free discount curve. The
-EIOPA extrapolation (UFR + Smith-Wilson) prescribes the curve beyond the
-last liquid point, ensuring the smoothness needed for B to exist. If
-consistency is not guaranteed within the liquid range, the extrapolation
-patches a problem that may already be present.
-
-
-
-# 5. Empirical Test
-
-## 5.1 Principle
-
-A top-down test — pricing under different numéraires within a single
-calibrated model — tests a mathematical identity and yields zero by
-construction. A bottom-up test calibrates local pricing measures
-*independently* for different maturity segments, then checks whether
-they cohere. The question is not "does my model satisfy its own
-assumptions?" (always yes) but "does the data support the assumption
-that a single model suffices across the full maturity spectrum?"
-(empirically testable).
-
-Since we employ a specific parametric model for calibration, rejection
-is a joint test: it may reflect model inadequacy, genuine structural
-inconsistency in the data, or both. This is a feature, not a defect.
-The diagnostic is designed to detect departures from single-model
-coherence — the three-factor comparison in Section 5.5 then
-partially disentangles the two sources.
-
-## 5.2 Data and Calibration
+## 4.2 Data and Calibration
 
 We use daily par yield curves for EUR-denominated government bonds
 published by the European Central Bank (ECB) over the period
 January 2014 to December 2024 (2,805 trading days). The dataset
 comprises 12 maturities: 3 months, 6 months, and 1, 2, 3, 5, 7,
 10, 15, 20, 25, and 30 years. We convert par yields to zero-coupon
-yields using standard bootstrap methods.
+yields using standard bootstrap methods. We note that the ECB par
+yield curves are model-fitted (Svensson parametrization), not raw
+bond prices; this introduces a layer of interpolation and smoothing
+that may affect cross-segment calibration results.
 
-To implement the consistency test of Section 3, we partition the
-maturity spectrum into overlapping segments
+We partition the maturity spectrum into overlapping segments
 $\mathcal{S}_T = [0, T]$ for $T \in \{5, 10, 15, 20, 25, 30\}$ years.
 For each segment and each trading day, we calibrate a Gaussian HJM
-model independently by minimising the sum of squared yield errors
-across all maturities within the segment. The calibration is
-performed via constrained optimisation (L-BFGS-B), with parameter
-bounds chosen to ensure stationarity and positivity of volatility.
+model independently using a two-stage procedure. In the first stage,
+we extract volatility parameters $(\sigma, \kappa)$ from a rolling
+60-day PCA of bond log-return covariances: eigenvalues give factor
+variances, and the exponential decay structure
+$v_k(\tau) \propto (1 - e^{-\kappa_k \tau})$ is fitted to each
+eigenvector via constrained optimisation (L-BFGS-B, convergence
+tolerance $10^{-8}$, maximum 500 iterations). In the second stage,
+given $(\sigma, \kappa)$, the market prices of risk $\lambda$ are
+estimated by cross-sectional OLS regression of observed yields on
+the model basis functions
+$g_k(\tau) = (\sigma_k / \kappa_k)(1 - e^{-\kappa_k \tau})$.
 
-This independent-calibration design is central to the test. Under
-the null hypothesis of forward-measure consistency, a family
-$\{Q^T\}$ derived from a single measure $Q$ must produce identical
-market prices of risk $\lambda$ regardless of which maturity segment
-is used for calibration. Discrepancies in $\lambda$ across segments
-constitute evidence against the null.
+This two-stage procedure is a sequential estimator: estimation error
+in $(\sigma, \kappa)$ propagates into $\lambda$ (the
+generated-regressor problem; Pagan 1984). The standard errors
+reported below account for serial correlation (Newey-West HAC,
+automatic bandwidth selection, yielding bandwidths of 10–15 lags)
+but not for first-stage estimation error. The conclusions of this
+exercise rest on the magnitude and geometry of $\lambda$ gaps rather
+than on marginal significance.
+
+If a single $Q$ with maturity-independent $\lambda$ exists, then
+$\lambda$ must be identical regardless of which segment is used for
+calibration. Systematic discrepancies indicate either that the
+model class is inadequate or that the assumption of a single
+maturity-independent $\lambda$ is wrong — or both.
 
 **Two-factor specification.** The baseline model uses two volatility
 factors:
-$$\sigma_1(\tau) = \sigma_1 e^{-\kappa_1 \tau} \quad \text{(level)}, \qquad
-\sigma_2(\tau) = \sigma_2 e^{-\kappa_2 \tau} \quad \text{(slope)},$$
-yielding a parameter vector
-$(\sigma_1, \sigma_2, \kappa_1, \kappa_2, \lambda_1, \lambda_2)$
-per segment per day. We impose $\kappa_1 \in [0.01, 2]$,
-$\kappa_2 \in [0.05, 2]$, $\sigma_i \in [0, 0.05]$,
-$\lambda_i \in [-2, 2]$.
+$$\sigma_1(\tau) = \sigma_1 e^{-\kappa_1 \tau}, \qquad
+\sigma_2(\tau) = \sigma_2 e^{-\kappa_2 \tau},  \quad (4.1)$$
+with bounds $\kappa_1 \in [0.01, 2]$, $\kappa_2 \in [0.05, 2]$,
+$\sigma_i \in [0, 0.05]$, $\lambda_i \in [-2, 2]$.
 
-**Three-factor specification.** To distinguish model inadequacy from
-structural inconsistency, we augment the model with a curvature factor:
-$$\sigma_3(\tau) = \sigma_3 \, \tau \, e^{-\kappa_3 \tau}
-\quad \text{(curvature)},$$
-which has a hump-shaped profile peaking at $\tau = 1/\kappa_3$.
-This three-factor decomposition into level, slope, and curvature
-captures the dominant modes of yield curve variation identified by
-Litterman and Scheinkman (1991). Additional bounds:
+**Three-factor specification.** We augment with a curvature factor:
+$$\sigma_3(\tau) = \sigma_3 \, \tau \, e^{-\kappa_3 \tau},  \quad (4.2)$$
+which has a hump-shaped profile peaking at $\tau = 1/\kappa_3$. This
+three-factor decomposition captures the dominant modes of yield
+curve variation (Litterman and Scheinkman 1991). Additional bounds:
 $\sigma_3 \in [0, 0.05]$, $\kappa_3 \in [0.05, 2]$.
 
-**Statistical test.** For each pair of segments
-$(\mathcal{S}_{T_1}, \mathcal{S}_{T_2})$ with $T_1 < T_2$, we compute
-the daily gap
-$\Delta\lambda_k(t) = \lambda_k^{(T_1)}(t) - \lambda_k^{(T_2)}(t)$
-for each factor $k$. The null hypothesis
-$H_0: E[\Delta\lambda_k] = 0$ is tested via a two-sided $t$-test on the
-time series of gaps, with Newey–West standard errors to account for
-serial correlation. We apply Bonferroni correction across all 15 segment
-pairs at the 5% significance level.
+For each pair of segments
+$(\mathcal{S}_{T_1}, \mathcal{S}_{T_2})$ with $T_1 < T_2$, we
+compute the daily gap
+$$\Delta\lambda_k(t) = \lambda_k^{(T_1)}(t) - \lambda_k^{(T_2)}(t).  \quad (4.3)$$
 
+## 4.3 Two-Factor Results
 
-## 5.3 Two-Factor Results
-
-Under the two-factor specification, the null hypothesis is rejected
-for 13 of 15 segment pairs at the Bonferroni-corrected 5% level.
-The two non-rejections occur for adjacent long-end pairs (25Y–30Y
-and 20Y–25Y), where the maturity overlap is large and the
-incremental information is minimal.
-
-The results exhibit a clear monotonic pattern. The mean gap in the
-level market price of risk between the 5Y and 30Y segments is
-$\overline{\Delta\lambda_1}(5\text{Y} \to 30\text{Y}) = -0.089$
-with a $t$-statistic of $-7.6$. The gap grows systematically with
-segment distance: adjacent pairs show gaps of 1–2 basis points,
-while the 5Y–30Y pair shows approximately 9 basis points. Long
-segments consistently price the level risk factor lower than short
+Under the two-factor specification, the mean gap in the level market
+price of risk between the 5Y and 30Y segments is
+$\overline{\Delta\lambda_1}(5\text{Y} \to 30\text{Y}) = -0.089$.
+The gap grows monotonically with segment distance: adjacent pairs
+show small gaps, while the 5Y–30Y pair shows the largest. Long
+segments consistently produce lower level risk prices than short
 segments.
 
-**Pattern invariance.** The absolute values of $\lambda$ are
-parametrization-dependent: they absorb normalization choices in the
-volatility specification and interact with the mean-reversion
-parameters. However, the *pattern* of the $\lambda$ gap — monotonic
-in segment distance, with long segments consistently pricing level
-risk lower than short segments — is invariant to the parametrization.
-This monotonicity is confirmed under both $\kappa_1$ bound choices
-(Section 5.4) and under both the two-factor and three-factor
-specifications (Section 5.5). A parametrization artefact would
-produce erratic, non-monotonic gaps; the systematic pattern indicates
-that the gap reflects a genuine feature of the data, even if its
-magnitude is model-dependent.
+The pattern is invariant to parametrization choices. It persists
+under alternative bounds for the mean-reversion parameter $\kappa_1$
+(Section 4.4) and under both the two-factor and three-factor
+specifications (Section 4.5). This monotonicity indicates a genuine
+feature of the data, even though the absolute magnitude of $\lambda$
+is model-dependent.
 
-Calibration quality is acceptable across segments: the mean $R^2$
-ranges from 0.94 (5Y segment) to 0.84 (30Y segment). The decline
-in fit for longer segments is expected given that a two-factor model
-must span a wider maturity range, but $R^2 = 0.84$ would not
-typically be flagged as inadequate by standard calibration
-diagnostics.[^spike2024]
+Cross-sectional $R^2$ (the fraction of yield variance across
+maturities explained by the model on each date, averaged over all
+dates) ranges from 0.94 (5Y segment) to 0.84 (30Y segment). The
+30Y fit would not typically be flagged as inadequate by standard
+calibration diagnostics — yet the $\lambda$ gaps are substantial.
 
-![Market Price of Risk Gaps Over Time](./figures/test1_lambda_gap_timeseries.png)
 ![Market Price of Risk Gaps: Heatmap by Segment Pair](./figures/test1_lambda_gap_heatmap.png)
 
-**Identification diagnostic.** The mean-reversion parameter $\kappa_1$
-for the level factor is estimated at or near its lower bound (0.01)
-for segments of 10 years and above on more than 95% of trading days.
-This is a known feature of level factors in short-sample Gaussian
-models: the level of the yield curve is near-integrated, and the
-cross-section alone provides limited identification of the speed of
-mean-reversion. The concern is that the $\lambda_1$ gap may reflect
-differences in how $\kappa_1$ interacts with the maturity grid rather
-than a genuine inconsistency in risk pricing.
+![Market Price of Risk Gaps Over Time (5Y vs 30Y)](./figures/test1_lambda_gap_timeseries.png)
 
+## 4.4 Robustness: Mean-Reversion Bound Sensitivity
 
-[^spike2024]: On seven trading days in September–October 2024,
-$|\Delta\lambda_1(\text{5Y},\text{30Y})| > 1.0$. Two dates
-(September 23–24) coincide with the Federal Reserve's 50 basis point
-rate cut and show acceptable calibration quality ($R^2 \approx 0.80$),
-consistent with asymmetric repricing across the maturity spectrum. Five
-dates (October 15–25) show near-zero $R^2$ for the 30Y segment ($R^2 <
-0.16$), indicating calibration breakdown rather than a market signal —
-the October 17 ECB rate decision is a particularly clear case. These
-observations do not affect the aggregate test statistics. Results are
-robust to excluding dates with $R^2 < 0.5$ for any segment.
+The level factor's mean-reversion parameter $\kappa_1$ is estimated
+at or near its lower bound for segments of 10 years and above on
+more than 95% of trading days — a known identification issue for
+near-integrated level factors. To check whether the $\lambda_1$ gap
+is an artefact of this, we re-run with the lower bound raised from
+0.01 to 0.05. The results are unchanged: the monotonic pattern and
+gap magnitudes are preserved.
 
-## 5.4 Robustness: Mean-Reversion Bound Sensitivity
+## 4.5 Three-Factor Comparison
 
-To address the $\kappa_1$ identification concern, we re-run the
-entire test with the lower bound raised from 0.01 to 0.05. If the
-$\lambda_1$ gap is an artefact of weak $\kappa_1$ identification,
-it should attenuate under the tighter bound.
+If the two-factor $\lambda$ gaps reflect only model inadequacy, a
+three-factor model should reduce them uniformly. The data show
+something different.
 
-The results are unchanged in all material respects. Under the
-tighter bound, 13 of 15 pairs are again rejected, with nearly
-identical $t$-statistics. The mean gaps change by at most 1 basis
-point. The monotonic pattern in segment distance is preserved.
+**Long-end pairs (≥ 15Y).** The $\lambda_1$ gaps shrink to near
+zero. The curvature factor absorbs the cross-segment discrepancy
+entirely. $R^2$ improves substantially (from 0.84 to 0.94 for the
+30Y segment). For these pairs, the two-factor gap reflects a
+missing factor, not a structural feature of the data.
 
-The robustness check also yields a useful by-product. We record
-the change in sum of squared residuals ($\text{SSR}$) between the two
-calibrations. For the 5Y segment, the $\text{SSR}$ increase is negligible
-($\Delta \text{SSR} = 0.38$), confirming that $\kappa_1$ is
-essentially unidentified at the short end. For the 30Y segment,
-the increase is substantial ($\Delta \text{SSR} = 4.15$),
-indicating that the data do contain information about $\kappa_1$
-at the long end — but the near-zero estimate is genuinely preferred.
-In both cases, however, the $\lambda_1$ gap is invariant.
+**Short-vs-long pairs (5Y vs ≥ 20Y).** The $\lambda_1$ gaps do not
+shrink — they widen, from approximately $-0.09$ to $-0.25$ to
+$-0.41$. The curvature factor is calibrated with fundamentally
+different characteristics across these segments ($\kappa_3 \approx
+0.47$ for 5Y vs. $\kappa_3 \approx 1.1$–$1.6$ for 15Y+),
+suggesting the third factor is doing different work in different
+parts of the curve.
 
-Under the tighter bound, $\kappa_1$ is pinned at exactly 0.05 for
-97–100% of dates in segments of 10Y and above. This confirms that
-we have shifted the boundary without resolving the identification
-problem — but it also confirms that the identification problem is
-irrelevant to the consistency test. The inconsistency signal is
-robust.
+This divergent pattern — gaps vanishing in one region while
+amplifying in another — is the most informative feature of the
+exercise. A uniformly misspecified model predicts uniform gap
+reduction under enrichment. The data do not show this.
 
-**Table: Parameter Sensitivity Analysis** (κ₁ bounds: 0.01 vs 0.05)
+![Three-Factor Comparison: Gap Shrinkage by Segment Pair](./figures/test3_gap_shrinkage.png)
 
-![Parameter Stability Across Segments and Dates](./figures/test1_parameter_stability.png)
+## 4.6 Synthetic Control
 
+To assess whether the divergent pattern could arise from the
+calibration methodology alone — even when a single $Q$ exists by
+construction — we repeat the exercise on synthetic data.
 
-## 5.5 Three-Factor Comparison
+**Design.** We generate 2,805 daily yield curves from a three-factor
+Gaussian HJM with parameters set to the median empirical estimates
+from the 30Y segment. By construction, a single $Q$ exists and
+$\lambda$ is maturity-invariant. We apply the identical segment-wise
+calibration procedure.
 
-The two-factor rejection could reflect either model inadequacy (a
-missing factor creates spurious inconsistency) or structural
-inconsistency (the yield curve segments are genuinely governed by
-different risk prices). To discriminate, we repeat the test with the
-three-factor specification and compare the $\lambda$ gaps.
+**Result.** The synthetic three-factor calibration produces $\lambda$
+gaps in the range $|\Delta\lambda_1| \approx 0.01$–$0.09$, uniformly
+across all segment pairs. This reflects PCA basis heterogeneity —
+each segment's PCA produces slightly different basis functions,
+generating apparent gaps even when true $\lambda$ is constant. The
+empirical short-vs-long gaps ($0.25$–$0.41$) exceed this floor by a
+factor of 4–20$\times$.
 
-If the rejection is purely a two-factor artefact, the gaps should
-vanish uniformly when the curvature factor absorbs the missing
-cross-sectional variation. If the rejection reflects genuine
-structural differences, the gaps should persist even with the
-richer model.
+Repeating with parameters from the 5Y segment produces a different
+synthetic pattern: large gaps with reversed sign
+($\Delta\lambda_1 \approx +0.16$ to $+0.22$ for short-vs-long
+pairs). Neither DGP reproduces the empirical divergent geometry.
+The synthetic exercise is sensitive to DGP specification, which
+limits its probative value — but it does establish that the
+empirical pattern is not a generic artefact of segment-wise
+calibration.
 
-The three-factor results reveal a structural split in the data.
+![Synthetic vs Empirical: Gap Comparison](./figures/synthetic_comparison_heatmap.png)
 
-**Long-end pairs (≥ 15Y).** For segment pairs within the long
-end of the curve — 15Y–20Y, 15Y–25Y, 15Y–30Y, 20Y–25Y, 20Y–30Y,
-25Y–30Y — the $\lambda_1$ gaps shrink to near zero. The curvature
-factor absorbs the inconsistency entirely. $R^2$ improves
-substantially (from 0.84 to 0.94 for the 30Y segment), confirming
-that the third factor captures genuine cross-sectional variation.
-For these pairs, the two-factor rejection reflects model inadequacy
-masquerading as inconsistency.
+## 4.7 What the Exercise Shows and Does Not Show
 
-**Short-vs-long pairs.** For pairs involving the 5Y segment against
-segments of 20Y and above, the $\lambda_1$ gaps do not shrink.
-They *widen*, from approximately $-0.09$ under the two-factor
-model to $-0.25$ to $-0.41$ under the three-factor model. The
-curvature factor is calibrated with fundamentally different
-characteristics across these segments: the 5Y segment produces
-$\kappa_3 \approx 0.47$ (curvature peaking at $\tau \approx 2$
-years), while segments of 15Y and above produce
-$\kappa_3 \approx 1.1$–$1.6$ (peaking at $\tau \approx 0.6$–$0.9$
-years). The third factor is doing different jobs in different
-segments, and the $\lambda_1$ gap absorbs the resulting
-misidentification.
+The exercise establishes three things:
 
-**Intermediate pairs.** Pairs involving the 10Y segment against
-long-end segments show slight widening of gaps but less dramatic
-than the 5Y pairs, consistent with a gradual transition between
-the two regimes.
+First, the forward-measure consistency question has empirical
+content. Within the Gaussian HJM class with maturity-independent
+$\lambda$, cross-segment coherence fails in a systematic,
+monotonic pattern that standard $R^2$ diagnostics do not detect.
 
-**Table: Lambda Gaps Across Models** (2-factor vs 3-factor specifications)
+Second, the three-factor comparison reveals a divergent structure:
+long-end gaps are absorbed by an additional factor (model
+inadequacy), while short-vs-long gaps amplify (something the model
+class cannot reconcile). This divergence is not reproduced by
+synthetic controls.
 
-![Three-Factor Model: Market Price of Risk Gap Shrinkage by Segment Pair](./figures/test3_gap_shrinkage.png)
+Third, the exercise does *not* establish that a single $Q$ fails to
+exist. A single $Q$ with maturity-dependent $\lambda(t,T)$ — which
+is precisely what preferred-habitat models produce (Vayanos and Vila
+2021) — could generate the observed pattern when projected onto a
+maturity-independent specification. Distinguishing this from
+genuine absence of $Q$ would require testing within a model class
+that permits maturity-dependent $\lambda$, which we leave to future
+work.
 
-
-## 5.6 Interpretation
-
-The empirical results demonstrate three layers of discriminating
-power in the forward-measure consistency test.
-
-**Layer 1: The test rejects.** Under the two-factor Gaussian HJM,
-13 of 15 segment pairs show statistically significant differences
-in the market price of risk, robust to parameter identification
-concerns. The rejection is not a calibration artefact — standard
-goodness-of-fit metrics ($R^2$) do not flag the inconsistency. This
-confirms the central methodological claim of the paper: the
-bottom-up consistency test is non-trivial and has discriminating
-power that conventional diagnostics lack.
-
-**Layer 2: The test distinguishes sources of inconsistency.** The
-three-factor comparison separates two phenomena within the same
-dataset. The long-end inconsistency (≥ 15Y pairs) vanishes
-when a curvature factor is added, identifying it as model
-inadequacy — a missing factor that the two-factor specification
-cannot accommodate. The short-vs-long inconsistency persists and
-amplifies, identifying it as structural — the 5Y and 30Y segments
-of the yield curve are governed by genuinely different risk-pricing
-dynamics.
-
-**The divergent pattern is itself diagnostic.** The identification
-critique — that $\lambda$ gaps may reflect model misspecification
-rather than genuine inconsistency — predicts a specific signature
-under model enrichment: if the two-factor rejection is purely a
-missing-factor artefact, adding the curvature factor should reduce
-gaps *uniformly* across all segment pairs. The data reject this
-prediction. Long-end gaps vanish (consistent with misspecification),
-but short-vs-long gaps widen by a factor of approximately four
-(inconsistent with misspecification). A pure misspecification story
-requires an explanation for why adding a factor that improves fit
-(30Y $R^2$ rises from 0.84 to 0.94) simultaneously amplifies the
-inconsistency in one region of the maturity spectrum while
-eliminating it in another. The most parsimonious explanation is that
-the two phenomena have different sources: missing curvature dynamics
-in the long end, and genuinely different risk-pricing regimes across
-the short-long divide.
-
-**Layer 3: The residual inconsistency has economic content.** The
-persistent gap between short and long segments aligns with the
-preferred-habitat and market-segmentation literature (Modigliani
-and Sutch 1966, Vayanos and Vila 2021). Short-end bond pricing is
-dominated by monetary policy expectations, which determine the
-level and near-term trajectory of short rates. Long-end pricing is
-dominated by term premia, supply-demand imbalances, and
-institutional demand from pension funds and insurers. Within any
-fixed parametric model class, these distinct pricing regimes
-produce systematically different implied market prices of risk —
-a finding consistent with fundamental segmentation, though we
-cannot rule out the possibility that a sufficiently flexible
-single model could reconcile them.
-
-We emphasize the distinction between mathematical existence and
-practical coherence. The existence of a single $Q$ accommodating
-arbitrary complexity in the market price of risk is a theoretical
-possibility. What our test reveals is that standard term-structure
-model classes — the tools practitioners actually use — do not
-achieve coherence across the full maturity spectrum, and that
-this failure has a systematic, economically interpretable pattern
-rather than the signature of random estimation noise. The
-forward-measure consistency condition is thus empirically
-testable and economically informative, rather than a mathematical
-tautology.
-
-**Caveat.** The empirical test is a joint test of model adequacy and
-market consistency: rejection means at least one fails. We cannot
-logically separate them from a single test. The three-factor
-comparison partially disentangles the two sources; the synthetic
-validation (Section 5.7) demonstrates that calibration methodology
-alone cannot reproduce the divergent geometry of the empirical
-pattern; and the economic alignment of the structural gap with known
-market segmentation provides independent corroboration. Further
-evidence from alternative model classes (stochastic volatility,
-quadratic Gaussian), cross-currency replication, and
-regime-conditional analysis would further strengthen the case. We
-interpret our results as strong evidence suggestive of structural
-inconsistency, not as proof.
-
-Even the model-inadequacy finding (Layer 2) has practical value.
-The consistency test detects the need for a curvature factor
-*before* the two-factor model's $R^2$ deteriorates to levels that
-would trigger concern in standard model validation. For
-practitioners who calibrate term-structure models to subsets of the
-curve — a common practice in insurance ALM and risk management —
-this provides a diagnostic that complements conventional
-goodness-of-fit metrics.
+The exercise is a proof of concept for the question, not evidence
+for the answer.
 
 
 
-## 5.7 Synthetic Validation
+# 5. Directions
 
-The empirical test is a joint test of model adequacy and forward-measure
-consistency. The identification critique — that the observed $\lambda$
-gaps could arise from model misspecification alone, even when a single
-$Q$ exists by construction — requires a direct answer. We provide it
-by running the identical test on synthetic data generated from a known
-data-generating process.
+The question formalized in Section 3.3 — whether pairwise
+forward-measure consistency implies the existence of a global $Q$ —
+is, to our knowledge, open. We identify three directions for
+investigation, each requiring expertise beyond the scope of this
+paper.
 
-**Design.** We simulate 2,805 daily yield curves (matching the
-empirical sample length) from a three-factor Gaussian HJM model with
-parameters set to the median estimates from the empirical 30Y
-segment:
-$$\sigma_i(\tau) = \hat{\sigma}_i \, g_i(\tau; \hat{\kappa}_i),
-\qquad \lambda_i = \hat{\lambda}_i, \quad i = 1,2,3,$$
-where $g_1, g_2$ are exponential and $g_3$ is hump-shaped, as in
-Section 5.2. By construction, a single risk-neutral measure $Q$
-exists, and the true market price of risk is identical across all
-maturities. We then apply the same segment-wise calibration
-procedure — two-factor and three-factor — and compute $\lambda$
-gaps across all 15 segment pairs.
+**The mathematical question.** Does pairwise consistency (3.1) across
+a continuum of maturities imply the existence of a global measure
+$Q$ and numéraire $B$? In finite dimensions with deterministic
+volatility, the problem may be tractable by functional-analytic
+methods. The diagonal singularity (Section 3.4) identifies a
+possible obstruction. An explicit counterexample — a bond market
+satisfying (BF) with no consistent $Q$ — would be equally valuable.
+The projective limit framework of Balbás et al. (2002), the
+consistency analysis of Filipović (2001), and the large-market FTAP
+literature (Cuchiero, Klein, and Teichmann 2016; De Donno 2004;
+Takaoka and Schweizer 2014) may provide relevant tools. In
+particular, the relationship between our pairwise consistency
+condition (3.1) and the no asymptotic free lunch (NAFL) condition
+of Klein, Schmidt, and Teichmann (2016) deserves investigation:
+if the two conditions are equivalent, their results on the
+generalized bank account may already provide a partial answer.
 
-**Two-factor results on synthetic data.** The two-factor calibration
-rejects consistency for 13 of 15 segment pairs, confirming that the
-test correctly detects misspecification when the model is
-underspecified relative to the DGP. This is the expected null
-behavior: two factors cannot capture three-factor variation, and
-the resulting $\lambda$ gaps are an artefact of the missing factor.
+**Richer model classes.** The empirical exercise operates within
+Gaussian HJM with maturity-independent $\lambda$. Testing within
+model classes that permit maturity-dependent $\lambda$ (Duffee 2002,
+Joslin, Singleton, and Zhu 2011) — or within non-Gaussian
+specifications (stochastic volatility, regime-switching) — would
+clarify whether the observed divergent pattern survives or is
+absorbed by a richer single-$Q$ specification.
 
-**Three-factor results on synthetic data.** The three-factor
-calibration — which matches the DGP specification — still rejects
-for 14 of 15 pairs at the Bonferroni-corrected level. This reveals
-a structural limitation of the test methodology: segment-wise PCA
-produces different basis functions $\hat{g}_k(\tau)$ on different
-maturity subsets, because each segment's eigenvectors are estimated
-from a different portion of the yield curve. The resulting basis
-heterogeneity generates apparent $\lambda$ gaps even when the true
-market price of risk is segment-invariant. This is an inherent
-feature of independent segment-wise calibration, not a defect of
-the implementation.
-
-**The structural bias is uniform; the empirical pattern is not.**
-The critical finding is that the synthetic bias has a characteristic
-signature: uniform magnitude across all segment pairs, with gaps
-in the range $|\Delta\lambda_1| \approx 0.01$–$0.09$. The
-empirical three-factor pattern is qualitatively different:
-
-| Pair category | Empirical 3F $\Delta\lambda_1$ | Synthetic 3F $\Delta\lambda_1$ |
-|---|---|---|
-| 5Y vs $\{10$–$30\text{Y}\}$ | $-0.25$ to $-0.41$ | $-0.03$ to $-0.09$ |
-| 10Y vs $\{15$–$30\text{Y}\}$ | $-0.12$ to $-0.16$ | $+0.05$ to $+0.06$ |
-| $\{15$–$30\text{Y}\}$ mutual | near $0$ | near $0$ |
-
-The empirical short-vs-long gaps exceed the synthetic bias by a
-factor of 4–20$\times$. Moreover, the empirical pattern exhibits a
-divergent geometry — short-vs-long pairs amplify dramatically under
-the three-factor model while long-end pairs collapse to zero —
-whereas the synthetic pattern shows structurally uniform residuals
-(shrinkage standard deviation 2.80 across pairs, vs. 5.76 in the
-empirical data). The divergent geometry of the empirical pattern
-cannot be attributed to calibration bias, which would produce
-uniform residuals across all pairs.
-
-**Interpretation.** The synthetic validation does not demonstrate
-that the test has zero false-positive rate — it does not, due to
-the PCA basis heterogeneity documented above. What it demonstrates
-is that the *magnitude and geometry* of the empirical three-factor
-pattern lie outside the envelope of what the structural bias alone
-can generate. The empirical divergence — short-vs-long gaps
-amplifying by 4–20$\times$ above the synthetic floor while
-long-end gaps vanish — constitutes evidence beyond model inadequacy
-or calibration methodology.
-
-![Synthetic vs Empirical: Gap Shrinkage Comparison](./figures/synthetic_comparison_heatmap.png)
+**The relationship between (BF), NAFL, and $\text{NA}^{\text{ni}}$
+in continuous time.** Herdegen's numéraire-independent FTAP, the
+NAFL condition of Klein-Schmidt-Teichmann, and our Bond-Family
+condition share the feature of not assuming a numéraire. Their
+precise relationships in continuous-time bond markets — and whether
+existing results already resolve our question — deserve
+investigation.
 
 
 
-# 6. Directions for Future Work
+# 6. Conclusion
 
-The theoretical and empirical framework developed here opens several
-lines of investigation that we leave to researchers with the appropriate
-mathematical tools.
+We asked whether the bond market needs a bank account — whether the
+family of T-forward measures $\{Q^T\}$, built from tradable bonds,
+necessarily assembles into a single global risk-neutral measure $Q$,
+or whether $Q$ is an additional assumption beyond what tradable
+instruments can deliver.
 
-The central open problem is Hypothesis 3.2.1: does consistency of the
-forward measure family force the HJM drift condition, or can the family
-cohere without it? A proof in the simplified setting of deterministic
-volatility would be a natural starting point; an explicit counterexample
-— a bond market satisfying (BF) with no consistent $Q$ — would be
-equally valuable. The diagonal singularity (Section 3.3) identifies the
-mechanism; rough forward rate models are the natural territory for
-constructing such examples, though forward rate roughness in fixed
-income remains to be established empirically. Characterizing the
-relationship between Bond-Family NA and Herdegen's $\text{NA}^{\text{ni}}$ in
-continuous-time bond markets would clarify the scope of our formulation.
+In discrete time, the answer is yes: the bank account is
+constructible as a self-financing rolling strategy, and forward-
+measure consistency is automatic. In continuous time, the question
+is open. We formalized it precisely (Definition 3.2.1), identified
+a possible mechanism for failure (the diagonal singularity), and
+noted connections to the HJM drift condition, the projective limit
+framework, and the large-financial-markets FTAP literature.
 
-On the applied side, the consistency diagnostic extends naturally to
-multi-curve settings (Bond-Family conditions for each tenor, cross-curve
-consistency) and to alternative model classes — stochastic volatility,
-quadratic Gaussian, or affine jump-diffusion models — whose different
-parametric structures would test whether the empirical divergence
-pattern of Section 5.5 is robust across specifications. Cross-currency
-replication and regime-conditional analysis (pre/post QE, pre/post
-rate hiking cycles) would further strengthen or qualify the empirical
-findings.
+To demonstrate that the question is not vacuous, we conducted a
+descriptive empirical exercise. Within the Gaussian HJM class with
+maturity-independent market price of risk, cross-segment coherence
+fails in a systematic, divergent pattern: long-end discrepancies are
+absorbed by an additional curvature factor, while short-vs-long
+discrepancies amplify. Synthetic controls confirm this pattern is
+not a generic artefact of the calibration methodology. The exercise
+does not answer the question — the observed pattern is consistent
+with either absence of a single $Q$ or inadequacy of the restricted
+model class — but it establishes that the question has empirical
+teeth.
 
+If this paper contributes anything, it is the question itself. We
+hope it may inspire investigation by researchers with the
+mathematical tools to resolve it.
 
-# 7. Conclusion
-
-We developed forward-measure consistency — the requirement that
-independently calibrated local pricing measures cohere across
-maturities — as a diagnostic for term-structure model validity.
-The diagnostic is grounded in a simple observation: in a bond market,
-each maturity provides its own numéraire and pricing measure, and
-practitioners already use these local frameworks daily. The question
-of whether they cohere is both testable and informative.
-
-In discrete time, consistency is automatic: the bank account emerges
-as a self-financing rolling strategy, and the four-way equivalence
-(Proposition 2.3.1) identifies the precise point where the argument
-uses finiteness. In continuous time, the question is open — the
-diagonal singularity of the forward rate surface identifies a
-theoretically grounded mechanism for failure, though an explicit
-counterexample in a financially relevant setting remains to be
-constructed.
-
-Empirically, independent calibration of local pricing measures for
-the EUR government bond market produces a sharp result. Under a
-two-factor Gaussian HJM, 13 of 15 segment pairs show statistically
-significant differences in the implied market price of risk —
-differences invisible to standard goodness-of-fit metrics. The
-three-factor comparison separates two distinct phenomena: model
-inadequacy for long-end pairs (the curvature factor absorbs the
-gap entirely) and residual inconsistency for short-vs-long pairs
-(the gap persists and amplifies). The residual pattern aligns with
-known market segmentation between monetary-policy-driven and
-term-premium-driven regimes.
-
-Whether this residual inconsistency reflects a fundamental limitation
-of the single-measure framework or merely the inadequacy of standard
-parametric model classes remains an open question. The synthetic
-validation (Section 5.7) demonstrates that calibration methodology
-alone cannot generate the divergent geometry of the empirical pattern,
-but alternative model classes — stochastic volatility, quadratic
-Gaussian, or affine jump-diffusion — could in principle reconcile the
-segments. What the test already demonstrates is practical diagnostic
-value: it detects missing risk factors before calibration metrics
-deteriorate, and it identifies maturity regimes where single-model
-coherence breaks down.
-
-The multi-curve phenomenon of post-2007 is, in our reading, a
-structural instance of forward-measure inconsistency. In practice,
-the bank account is not directly traded; its role as numéraire
-depends on the replicability of the rolling bond strategy. When
-local pricing measures fail to cohere across the maturity spectrum,
-this replication may not be achievable — even if a mathematical
-short rate can be defined. Our evidence suggests that within the
-EUR government bond market, coherence does not extend across the
-full maturity spectrum.
 
 # Acknowledgments
 
-The empirical test design, calibration strategy, and three-layer
-interpretation were developed in extended dialogue with Claude (Anthropic).
-Claude served as a research collaborator throughout the project —
-contributing to the formulation of the consistency test, the robustness
-analysis, the economic interpretation connecting to the preferred-habitat
-literature, and the structuring of the paper. Data, code, and
-reproducible results are available at
+This paper grew out of a puzzle I first encountered during my
+doctoral work (Universität Ulm, 2008): why does the standard
+no-arbitrage theory rely on a bank account that is not actually
+traded? The question lay dormant for eighteen years until the
+tools existed to revisit it.
+
+The present paper was developed in extended collaboration with
+Claude (Anthropic, Opus). Claude's contributions included:
+identifying the original dissertation result as an algebraic
+identity rather than an independent FTAP, which redirected the
+investigation toward the genuinely open continuous-time question;
+surveying and positioning the work relative to the forward-measure,
+large-financial-markets, and numéraire-independent FTAP literatures;
+iteratively clarifying the question from an intuitive discomfort
+into the precise formulation of Definition 3.2.1; designing the
+segment-wise calibration approach, the three-factor comparison,
+and the synthetic validation; and the scope decision to present
+this as a question paper rather than a theorem paper — matching
+the contribution to what the evidence supports. The editorial
+work, including structuring, drafting, and responding to reviewer
+critiques, was conducted jointly throughout.
+
+Data, code, and reproducible results are available at
 https://github.com/shaohui1977/bond-family-na.
 All errors remain the author's responsibility.
 
@@ -834,14 +719,13 @@ including $B$ does not enlarge the attainable set. The classical FTAP
 $\text{NA} \iff \exists Q \sim P$ such that $S/B$ is a $Q$-martingale
 for all $S \in \mathcal{S}$.
 
-$(\text{EMM}) \iff (\text{Wang})$: For any $S$ with $S(t-1) > 0$:
+$(\text{EMM}) \iff (\text{RF})$: For any $S$ with $S(t-1) > 0$:
 $$E^Q[S(t)/B(t) \mid \mathcal{F}_{t-1}] = S(t-1)/B(t-1)$$
 $$\iff E^Q[1 + R_t^S \mid \mathcal{F}_{t-1}] = 1/p(t-1,t)
   = 1 + R_t^{(\text{rf})}$$
 $$\iff E^Q[R_t^S \mid \mathcal{F}_{t-1}] = R_t^{(\text{rf})}.$$
 All steps are multiplication by positive
-$\mathcal{F}_{t-1}$-measurable quantities. This is the content of
-Wang (2008, Theorem 3.2.1).
+$\mathcal{F}_{t-1}$-measurable quantities.
 
 $(\text{EMM}) \Rightarrow (\text{BF})$: For each $T$, define
 $$Z^T_t := \frac{p(t,T)}{B(t) \cdot p(0,T)}, \quad
@@ -891,18 +775,32 @@ Björk, T., Di Masi, G., Kabanov, Y. and Runggaldier, W. (1997).
 Black, F. and Scholes, M. (1973). "The pricing of options and corporate
 liabilities." *Journal of Political Economy* 81, 637–654.
 
+Carmona, R. and Tehranchi, M. (2006). *Interest Rate Models: an Infinite
+Dimensional Stochastic Analysis Perspective.* Springer.
+
 Crépey, S. et al. (2015). "Rational multi-curve models with
 counterparty-risk valuation adjustments." *Quantitative Finance* 15,
 1–20.
 
+Cuchiero, C., Klein, I. and Teichmann, J. (2016). "A new perspective on
+the fundamental theorem of asset pricing for large financial markets."
+*Theory of Probability and its Applications* 60, 561–579.
+
 Davis, M.H.A. and Hobson, D.G. (2007). "The range of traded option
 prices." *Mathematical Finance* 17, 1–14.
+
+De Donno, M. (2004). "The fundamental theorem of asset pricing in
+the case of a continuum of risky assets." *Decisions in Economics and
+Finance* 27, 135–148.
 
 Döberlein, F. and Schweizer, M. (2001). "On saving and rolling
 strategies." *Journal of Mathematical Economics* 36, 331–354.
 
 Döberlein, F., Schweizer, M. and Stricker, C. (2000). "Implied savings
 accounts are unique." *Finance and Stochastics* 4, 431–443.
+
+Duffee, G.R. (2002). "Term premia and interest rate forecasts in affine
+models." *Journal of Finance* 57, 405–443.
 
 Filipović, D. (2001). *Consistency Problems for HJM Interest Rate
 Models.* Lecture Notes in Mathematics 1760, Springer.
@@ -944,12 +842,13 @@ framework." *Mathematical Finance* 27, 568–603.
 Hobson, D.G. (1998). "Robust hedging of the lookback option."
 *Finance and Stochastics* 2, 329–347.
 
-Jacod, J. and Shiryaev, A.N. (2003). *Limit Theorems for Stochastic
-Processes.* 2nd ed., Springer.
+Joslin, S., Singleton, K.J. and Zhu, H. (2011). "A new perspective on
+Gaussian dynamic term structure models." *Review of Financial Studies*
+24, 926–970.
 
-Krivko, M. and Tretyakov, M.V. (2011). "Numerical integration of
-Heath-Jarrow-Morton model of interest rates." *IMA Journal of Numerical
-Analysis* 33, 147–196.
+Klein, I., Schmidt, T. and Teichmann, J. (2016). "No arbitrage theory
+for bond markets." In Kallsen, J. and Papapantoleon, A. (eds), *Advanced
+Modelling in Mathematical Finance*, Springer, 381–421.
 
 Litterman, R. and Scheinkman, J. (1991). "Common factors affecting bond
 returns." *Journal of Fixed Income* 1, 54–61.
@@ -957,23 +856,21 @@ returns." *Journal of Fixed Income* 1, 54–61.
 Merton, R.C. (1973). "Theory of rational option pricing." *Bell Journal
 of Economics and Management Science* 4, 141–183.
 
-Modigliani, F. and Sutch, R. (1966). "Innovations in interest rate
-policy." *American Economic Review* 56, 178–197.
-
 Morini, M. (2009). "Solving the puzzle in the interest rate market."
 *SSRN Working Paper.* Available at ssrn.com/abstract=1506046.
 
 Musiela, M. and Rutkowski, M. (1997). "Continuous-time term structure
 models: Forward measure approach." *Finance and Stochastics* 1, 261–291.
 
-Musiela, M. and Rutkowski, M. (2005). *Martingale Methods in Financial
-Modelling.* 2nd ed., Springer.
+Pagan, A. (1984). "Econometric issues in the analysis of regressions
+with generated regressors." *International Economic Review* 25, 221–247.
 
 Samuelson, P.A. (1938). "A note on the pure theory of consumer's
 behaviour." *Economica* 5, 61–71.
 
+Takaoka, K. and Schweizer, M. (2014). "A note on the condition of no
+unbounded profit with bounded risk." *Finance and Stochastics* 18,
+393–405.
+
 Vayanos, D. and Vila, J.-L. (2021). "A preferred-habitat model of the
 term structure of interest rates." *Econometrica* 89, 77–112.
-
-Wang, S. (2008). *Longevity Risks: Modelling and Financial Engineering.*
-PhD dissertation, Universität Ulm.

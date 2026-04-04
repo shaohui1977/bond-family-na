@@ -196,7 +196,7 @@ def plot_comparison_heatmap(comparison: pd.DataFrame) -> None:
     all_vals = [abs(v) for d in [emp2, emp3, syn2, syn3] for v in d.values() if not np.isnan(v)]
     vmax = max(all_vals) if all_vals else 1.0
 
-    fig, axes = plt.subplots(2, 2, figsize=(13, 11))
+    fig, axes = plt.subplots(2, 2, figsize=(14, 11))
     panels = [
         (axes[0, 0], emp2, "Empirical — 2-factor"),
         (axes[0, 1], emp3, "Empirical — 3-factor"),
@@ -206,13 +206,14 @@ def plot_comparison_heatmap(comparison: pd.DataFrame) -> None:
     for ax, vals, title in panels:
         im = _make_heatmap(ax, vals, caps, title, vmax)
 
-    fig.colorbar(im, ax=axes, label="Mean |Δλ₁|", shrink=0.6)
     fig.suptitle(
         "Synthetic Validation: λ₁ Gaps — Empirical vs Synthetic × 2F vs 3F\n"
         "(Synthetic 3F should show uniform near-zero; empirical 3F shows divergent pattern)",
         fontsize=11,
     )
-    plt.tight_layout(rect=[0, 0, 0.88, 0.95])
+    fig.subplots_adjust(top=0.90, right=0.84, hspace=0.35, wspace=0.30)
+    cbar_ax = fig.add_axes([0.86, 0.12, 0.025, 0.72])
+    fig.colorbar(im, cax=cbar_ax, label="Mean |Δλ₁|")
     out = FIGURES_DIR / "synthetic_comparison_heatmap.png"
     plt.savefig(out, dpi=150, bbox_inches="tight")
     plt.close()
