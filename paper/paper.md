@@ -2,7 +2,7 @@
 title: Does the Bond Market Need a Bank Account?
 subtitle: Forward Measure Consistency and Interest Rate Pricing
 author: Shaohui Wang^[shaohui.wang@hotmail.com]
-date: April 2026
+date: June 2026
 ---
 
 
@@ -35,8 +35,8 @@ To demonstrate that the question is not vacuous, we conduct a
 descriptive empirical exercise: independent calibration of Gaussian
 HJM models on different maturity segments of the EUR government bond
 market. The implied market prices of risk differ systematically
-across segments, in a pattern that synthetic controls cannot
-replicate. This does not answer the question — the observed pattern
+across segments, in a divergent pattern that the synthetic controls
+we examined do not replicate. This does not answer the question — the observed pattern
 is consistent with either absence of a single $Q$ or the inadequacy
 of the model class used — but it establishes that the question has
 empirical content.
@@ -199,13 +199,15 @@ for all traded assets $S$.
 
 **(RF)** $\exists Q \sim P$ such that
 $E^Q[R_t^S \mid \mathcal{F}_{t-1}]$ equals the just-maturing bond
-return $[1 - p(t-1,t)]/p(t-1,t)$ for all traded $S$.
+return $[1 - p(t-1,t)]/p(t-1,t)$ for all traded $S$, where
+$R_t^S := S(t)/S(t-1) - 1$ is the one-period simple return.
 
 **(BF)** For each $T \in \{1,\ldots,N\}$, $\exists Q^T \sim P$ such
 that $S(t)/p(t,T)$ is a $Q^T$-martingale for all traded assets $S$
 and $t \le T$.
 
-Moreover, the forward measures satisfy the consistency relation
+Moreover, the forward measures constructed in the proof of
+$(\text{EMM}) \Rightarrow (\text{BF})$ satisfy the consistency relation
 
 $$\frac{dQ^{T_1}}{dQ^{T_2}}\bigg|_{\mathcal{F}_{T_1}} = \frac{p(0,T_2)}{p(0,T_1) \cdot p(T_1,T_2)}   \quad (2.1)$$
 
@@ -231,16 +233,19 @@ point where the argument uses discreteness: the chain rule across
 maturity triples is a finite number of conditions. This is the point
 that becomes problematic in continuous time.
 
-## 2.4 Consistency Is Automatic — But Only in Discrete Time
+## 2.4 A Consistent Family Always Exists — But Only in Discrete Time
 
-The consistency relation (2.1) is implied by (BF): under $Q^{T_2}$,
-the ratio $p(t,T_1)/p(t,T_2)$ is a martingale whose terminal value
-determines the Radon-Nikodym derivative. The chain rule
+Given (EMM), the family $\{Q^T\}$ constructed via
+$Z^T_t = p(t,T)/[B(t) \cdot p(0,T)]$ satisfies (2.1), and the chain rule
 $$\frac{dQ^{T_1}}{dQ^{T_3}} = \frac{dQ^{T_1}}{dQ^{T_2}} \cdot \frac{dQ^{T_2}}{dQ^{T_3}}$$
-is a finite number of conditions, each automatically satisfied.
+across maturity triples is a finite number of conditions, each
+satisfied by construction. In an incomplete market other
+forward-measure selections exist; (2.1) singles out the mutually
+compatible family.
 
-In continuous time, this becomes an uncountable family. Automatic
-consistency is a consequence of finitude, not of structure.
+In continuous time, the family of conditions becomes uncountable.
+That a consistent family exists and glues into a global $(Q, B)$
+is, in discrete time, a consequence of finitude, not of structure.
 
 **Remark (Relationship to Herdegen 2017).** In bond markets with
 strictly positive prices, Herdegen's numéraire-independent
@@ -281,11 +286,21 @@ $T_1 < T_2$ in $\mathcal{T}$:
 
 $$\frac{dQ^{T_1}}{dQ^{T_2}}\bigg|_{\mathcal{F}_{T_1}} = \frac{p(0,T_2)}{p(0,T_1) \cdot p(T_1,T_2)}.   \quad (3.1)$$
 
-Condition (3.1) is not an independent assumption: it follows from the
-forward martingale property applied to the bonds themselves. Under
-$Q^{T_2}$, the ratio $p(t,T_1)/p(t,T_2)$ is a local martingale on
-$[0,T_1]$ with terminal value $1/p(T_1,T_2)$, which determines the
-Radon-Nikodym derivative.
+Two remarks on the status of (3.1). First, it is a genuine
+condition, not a consequence of the forward martingale property.
+Under $Q^{T_2}$, the change of numéraire from the $T_2$-bond to the
+$T_1$-bond produces *a* measure with density (3.1) — and that
+measure is a valid $T_1$-forward measure. But in an incomplete
+market forward measures are not unique, and the family member
+$Q^{T_1}$ need not coincide with this numéraire-change image.
+Consistency is precisely the requirement that the family's
+selections are mutually compatible. Second, (3.1) implicitly
+requires the bond-price ratios to be true $Q^{T_2}$-martingales
+rather than strict local martingales: if $p(\cdot,T_1)/p(\cdot,T_2)$
+were a strict local martingale (a bond-ratio bubble), the
+right-hand side of (3.1) would integrate to less than one and could
+not serve as a Radon-Nikodym density. Pairwise consistency thus
+already excludes bond-ratio bubbles.
 
 **Remark.** When $\mathcal{T}$ is finite, condition (3.1) suffices:
 Proposition 2.3.1 constructs $Q$ and $B$ from the family. When
@@ -394,15 +409,14 @@ consistency-based diagnostic can detect.
 
 ## 4.2 Data and Calibration
 
-We use daily par yield curves for EUR-denominated government bonds
-published by the European Central Bank (ECB) over the period
+We use daily zero-coupon yield curves for EUR-denominated government
+bonds published by the European Central Bank (ECB) over the period
 January 2014 to December 2024 (2,805 trading days). The dataset
 comprises 12 maturities: 3 months, 6 months, and 1, 2, 3, 5, 7,
-10, 15, 20, 25, and 30 years. We convert par yields to zero-coupon
-yields using standard bootstrap methods. We note that the ECB par
-yield curves are model-fitted (Svensson parametrization), not raw
-bond prices; this introduces a layer of interpolation and smoothing
-that may affect cross-segment calibration results.
+10, 15, 20, 25, and 30 years. The ECB publishes these as spot rates
+derived from a fitted Svensson parametrization, not raw bond prices;
+this introduces a layer of interpolation and smoothing that may
+affect cross-segment calibration results.
 
 We partition the maturity spectrum into overlapping segments
 $\mathcal{S}_T = [0, T]$ for $T \in \{5, 10, 15, 20, 25, 30\}$ years.
@@ -641,7 +655,7 @@ descriptive empirical exercise. Within the Gaussian HJM class with
 maturity-independent market price of risk, cross-segment coherence
 fails in a systematic, divergent pattern: long-end discrepancies are
 absorbed by an additional curvature factor, while short-vs-long
-discrepancies amplify. Synthetic controls confirm this pattern is
+discrepancies amplify. Synthetic controls indicate this pattern is
 not a generic artefact of the calibration methodology. The exercise
 does not answer the question — the observed pattern is consistent
 with either absence of a single $Q$ or inadequacy of the restricted

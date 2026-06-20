@@ -7,3 +7,4 @@ paper/*.pdf
 __pycache__/
 *.pyc
 tmp_*
+paper_anonymous.md
