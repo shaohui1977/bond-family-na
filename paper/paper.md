@@ -85,6 +85,18 @@ formalize the question precisely and leave it open (Section 3). We
 then present a descriptive empirical exercise showing the question
 has empirical content (Section 4).
 
+To be clear about what is and is not established: we contribute (i) a
+precise, $Q$-free definition of forward-measure consistency
+(Definition 3.2.1), under which the pairwise conditions provably
+self-propagate (Lemma 2.4.1) and exclude bond-ratio bubbles; (ii) the
+identification of the numéraire $B$ — not measure incompatibility, and
+not a projective-limit problem — as the sole locus of the
+continuous-time obstruction (Section 3.4); and (iii) a descriptive
+demonstration that the question has empirical content (Section 4). We
+do not resolve the continuous-time existence question, and we do not
+claim a relationship to existing large-market results beyond a precise
+statement of the residual gap (Section 5).
+
 ## 1.2 Related Work
 
 Musiela and Rutkowski (1997) and Döberlein, Schweizer, and Stricker
@@ -243,9 +255,32 @@ satisfied by construction. In an incomplete market other
 forward-measure selections exist; (2.1) singles out the mutually
 compatible family.
 
-In continuous time, the family of conditions becomes uncountable.
-That a consistent family exists and glues into a global $(Q, B)$
-is, in discrete time, a consequence of finitude, not of structure.
+The discreteness that does the work here is discreteness of *trading*:
+$B$ is a finite product of one-period bond returns. With finitely many
+maturities but continuous trading, $B$ still need not exist for all
+$t$ (Section 3.4). That a consistent family glues into a global
+$(Q, B)$ is, under discrete trading, a consequence of finitude, not of
+structure.
+
+**Lemma 2.4.1 (Pairwise consistency is self-propagating).** *If a
+family $\{Q^T\}$ satisfies (3.1) for every pair, it satisfies the
+triple relation automatically: for $T_1 < T_2 < T_3$,*
+$$\frac{dQ^{T_1}}{dQ^{T_3}}\bigg|_{\mathcal{F}_{T_1}} = \frac{dQ^{T_1}}{dQ^{T_2}}\bigg|_{\mathcal{F}_{T_1}} \cdot \frac{dQ^{T_2}}{dQ^{T_3}}\bigg|_{\mathcal{F}_{T_1}}.$$
+
+*Proof.* Condition (3.1) for the pair $(T_2, T_3)$ states that
+$dQ^{T_2}/dQ^{T_3}$ restricted to $\mathcal{F}_t$ equals the
+change-of-numéraire density
+$\frac{p(0,T_3)}{p(0,T_2)} \cdot \frac{p(t,T_2)}{p(t,T_3)}$ — a bona
+fide $Q^{T_3}$-density precisely because the bond ratio is a true
+martingale rather than a strict local one (the bubble-exclusion of
+Section 3.2). Evaluating at $t = T_1$ and multiplying by (3.1) for
+$(T_1, T_2)$ returns (3.1) for $(T_1, T_3)$ by cancellation of
+$p(T_1,T_2)$ and $p(0,T_2)$. $\square$
+
+The cocycle is therefore not an additional requirement: pairwise
+consistency is never the source of failure. Whatever obstructs the
+passage to a global $Q$ in continuous time, it is not incompatibility
+of the measure family at any finite level.
 
 **Remark (Relationship to Herdegen 2017).** In bond markets with
 strictly positive prices, Herdegen's numéraire-independent
@@ -300,17 +335,26 @@ rather than strict local martingales: if $p(\cdot,T_1)/p(\cdot,T_2)$
 were a strict local martingale (a bond-ratio bubble), the
 right-hand side of (3.1) would integrate to less than one and could
 not serve as a Radon-Nikodym density. Pairwise consistency thus
-already excludes bond-ratio bubbles.
+already excludes bond-ratio bubbles. (On strict-local-martingale bubbles and their characterisation via
+change of numéraire, see Cox and Hobson 2005, Jarrow, Protter, and
+Shimbo 2010, and Protter 2013.) Each pair excludes a bubble only up to
+the shorter of its two maturities, so the family-level statement is
+that bubbles are excluded over all horizons spanned by the family.
 
 **Remark.** When $\mathcal{T}$ is finite, condition (3.1) suffices:
-Proposition 2.3.1 constructs $Q$ and $B$ from the family. When
-$\mathcal{T}$ is a continuum, (3.1) is necessary but may not be
-sufficient — additional regularity is needed for the projective
-limit across the uncountable index set to exist (cf. Balbás et al.
-2002 for the general framework; Filipović 2001, 2009 for related
-consistency conditions in HJM models). Identifying the minimal
-regularity condition is, to our understanding, the core of the
-mathematical problem.
+Proposition 2.3.1 constructs $Q$ and $B$ from the family. By Lemma
+2.4.1 the pairwise conditions are mutually compatible at every finite
+level even when $\mathcal{T}$ is a continuum — so the obstruction to a
+global $Q$, if any, is *not* incompatibility of the measure family,
+nor a projective-limit extension problem (every $Q^T$ already lives on
+the same $(\Omega, \mathcal{F})$; nothing must be extended to a limit
+space). What a global risk-neutral measure requires beyond the family
+is a *numéraire process* $B$: a single $Q \sim \mathbb{P}$ and a
+strictly positive adapted $B$ with
+$\frac{dQ^T}{dQ}\big|_{\mathcal{F}_t} = \frac{p(t,T)}{B(t) p(0,T)}$
+for every $T$. The risk-neutral measure is not any single $Q^T$; it is
+anchored by $B$. Identifying when such a $B$ can be constructed is, to
+our understanding, the core of the continuous-time problem.
 
 **Why standard extension theorems do not immediately apply.** A
 natural reaction is that the Kolmogorov extension theorem (or its
@@ -355,31 +399,45 @@ The restriction to finite-dimensional driving noise is substantive;
 under infinite-dimensional noise (cylindrical Brownian motion), the
 question may take a different form.
 
-## 3.4 A Possible Mechanism for Failure
+## 3.4 Where the Obstruction Lives: the Numéraire $B$
 
-The bank account requires $r(t) = f(t,t)$ — the diagonal restriction
-of the forward rate surface. Each bond price
-$p(t,T) = \exp\left(-\int_t^T f(t,s) \, ds\right)$ involves an
-integral that smooths irregularities; the short rate is a pointwise
-evaluation with no smoothing. The issue is not the mathematical
-existence of $r(t)$ given sufficient regularity, but whether $B$ —
-as a portfolio strategy — is replicable from tradable bonds.
+By Lemma 2.4.1 the measure family is internally consistent at every
+finite level, so the continuous-time question reduces to a single
+object: can the numéraire $B$ be constructed? Two features make this
+non-automatic, and both are about *continuous trading*, not about the
+cardinality of the maturity set.
 
-When the forward rate surface has Hölder regularity $H < 1/2$ in the
-maturity variable, the diagonal restriction may fail to exist even
-though all bond prices and forward measures remain well-defined — a
-classical distinction in functional analysis (the Sobolev trace
-theorem). Gatheral, Jaisson, and Rosenbaum (2018) established that
-equity volatility processes have $H \approx 0.1$; whether bond
-forward rate surfaces exhibit comparable roughness is, to our
-knowledge, unknown. The diagonal singularity is thus a possible
-mechanism, not an established one.
+First, $B(t) = \exp\left(\int_0^t r(s)\, ds\right)$ requires the short
+rate $r(s) = f(s,s)$ at every instant. The discrete-time rolling
+strategy (Proposition 2.2.1) builds $B$ as a finite product of
+just-maturing bond returns; in continuous time it becomes a
+continuously rebalanced strategy whose convergence is not guaranteed
+by the well-behavedness of individual bonds. This is a
+continuous-*trading* phenomenon: even with finitely many maturities,
+$B$ need not be constructible for all $t$.
 
-We note a logical subtlety: non-existence of the classical short
-rate would imply failure of the bank account construction, but it
-does not by itself imply that the family $\{Q^T\}$ fails to satisfy
-(3.1). The relationship between these two forms of failure is part
-of the open problem.
+Second, $r(s) = f(s,s)$ is the diagonal restriction of the forward
+surface $f(s,T)$. A pointwise diagonal evaluation requires more
+regularity than the integrated quantities
+$p(t,T) = \exp(-\int_t^T f(t,u)\,du)$ that the market actually quotes.
+We note this as a *heuristic analogy* with the trace problem in
+functional analysis (where restricting a function to a
+lower-dimensional set requires Sobolev regularity above a threshold),
+not as an established mechanism: the regularity in question is that of
+the *joint* surface near the diagonal $T = t$, and we are aware of no
+evidence that EUR forward surfaces are irregular in this sense —
+indeed their evident smoothness in the maturity direction (which is
+what makes parametric fits such as Svensson viable) cuts the other
+way. We flag the diagonal as the natural place to look for an
+obstruction, while making no claim that one exists.
+
+Finally, a logical caveat. Failure to construct $B$ would not, by
+itself, mean the family $\{Q^T\}$ violates (3.1) — by Lemma 2.4.1 it
+cannot. It would mean the consistent family does not arise from any
+single $Q$ via a numéraire change. Whether a consistent family can
+exist *without* an underlying $(Q, B)$ is precisely the open question;
+the discrete case shows it cannot happen there, and we do not know
+whether the continuum admits it.
 
 
 
@@ -406,6 +464,22 @@ We cannot distinguish these alternatives from a single exercise.
 What the exercise can establish is that the question is not vacuous:
 the data exhibit systematic cross-segment patterns that a
 consistency-based diagnostic can detect.
+
+We stress the distance between the theoretical object and the
+empirical one. Condition (3.1) is a statement about measures;
+segment-wise equality of $\lambda$ is a statement about a *bundled
+proxy* — it presupposes the Gaussian-HJM class *and* a
+maturity-independent market price of risk, and failure can originate
+in any of the three components, only the first of which is our
+question. The exercise therefore establishes "empirical content" only
+in the weak sense that a consistency-flavoured diagnostic detects
+systematic cross-segment structure; it does not, and cannot, isolate
+(3.1). Moreover the ECB curves are Svensson-fitted spot rates, not raw
+bond prices; the Svensson form imposes cross-maturity smoothness that
+interacts with segmentation in an unknown direction and could either
+attenuate or manufacture the cross-segment $\lambda$ gaps that are the
+entire result. We report the gaps as a descriptive finding under these
+explicit caveats.
 
 ## 4.2 Data and Calibration
 
@@ -586,6 +660,14 @@ genuine absence of $Q$ would require testing within a model class
 that permits maturity-dependent $\lambda$, which we leave to future
 work.
 
+In particular, because the synthetic control was examined for only two
+data-generating parametrisations (30Y- and 5Y-calibrated), and is
+sign-sensitive across them, the exercise establishes at most that the
+empirical pattern is not a *generic* artefact of segment-wise
+calibration — never that it is irreproducible by *some* single-$Q$
+model. This ceiling applies to every use of the synthetic evidence in
+the paper.
+
 The exercise is a proof of concept for the question, not evidence
 for the answer.
 
@@ -599,22 +681,19 @@ is, to our knowledge, open. We identify three directions for
 investigation, each requiring expertise beyond the scope of this
 paper.
 
-**The mathematical question.** Does pairwise consistency (3.1) across
-a continuum of maturities imply the existence of a global measure
-$Q$ and numéraire $B$? In finite dimensions with deterministic
-volatility, the problem may be tractable by functional-analytic
-methods. The diagonal singularity (Section 3.4) identifies a
-possible obstruction. An explicit counterexample — a bond market
-satisfying (BF) with no consistent $Q$ — would be equally valuable.
-The projective limit framework of Balbás et al. (2002), the
-consistency analysis of Filipović (2001), and the large-market FTAP
-literature (Cuchiero, Klein, and Teichmann 2016; De Donno 2004;
-Takaoka and Schweizer 2014) may provide relevant tools. In
-particular, the relationship between our pairwise consistency
-condition (3.1) and the no asymptotic free lunch (NAFL) condition
-of Klein, Schmidt, and Teichmann (2016) deserves investigation:
-if the two conditions are equivalent, their results on the
-generalized bank account may already provide a partial answer.
+**The mathematical question.** By Lemma 2.4.1 the measure family is
+consistent at every finite level; the open content is whether a
+numéraire process $B$ — equivalently a global $Q$ — can be
+constructed from a consistent family in continuous time (Section 3.4).
+An explicit counterexample — a consistent family $\{Q^T\}$ in the
+sense of (3.1) admitting no underlying $(Q, B)$ — would settle the
+question negatively and would be the most valuable single
+contribution. In finite dimensions with deterministic volatility the
+problem may be tractable by functional-analytic methods, with the
+diagonal $r(s) = f(s,s)$ the natural place to seek an obstruction.
+The relationship to the no-asymptotic-free-lunch (NAFL) condition of
+Klein, Schmidt, and Teichmann (2016) is the most promising connection
+and is discussed separately below.
 
 **Richer model classes.** The empirical exercise operates within
 Gaussian HJM with maturity-independent $\lambda$. Testing within
@@ -624,13 +703,35 @@ specifications (stochastic volatility, regime-switching) — would
 clarify whether the observed divergent pattern survives or is
 absorbed by a richer single-$Q$ specification.
 
-**The relationship between (BF), NAFL, and $\text{NA}^{\text{ni}}$
-in continuous time.** Herdegen's numéraire-independent FTAP, the
-NAFL condition of Klein-Schmidt-Teichmann, and our Bond-Family
-condition share the feature of not assuming a numéraire. Their
-precise relationships in continuous-time bond markets — and whether
-existing results already resolve our question — deserve
-investigation.
+**The relationship to Klein–Schmidt–Teichmann, and why we do not
+claim it.** Klein, Schmidt, and Teichmann (2016) construct a
+generalized bank account as a limit of convex combinations of
+roll-over bonds; by Section 3.4 our question *is* a numéraire-
+construction question, so the two programmes are close, and it is
+natural to ask whether a consistent family in the sense of (3.1)
+implies their no-asymptotic-free-lunch (NAFL) condition (after which
+their construction would supply a generalized $B$). We do not claim
+this implication, and we state the obstruction precisely. NAFL is a
+condition on *trading strategies* in the large financial market
+generated by all bonds: it controls sequences of admissible portfolios
+under a topology on terminal wealths. Condition (3.1) is a condition on
+*measures*: it pins each pairwise density to the change-of-numéraire
+form and, by Lemma 2.4.1, glues consistently at every finite level. A
+consistent family yields, for each terminal maturity $T^*$, a single
+measure $Q^{T^*}$ under which all bonds are local martingales after
+deflation by $p(\cdot, T^*)$ — which is close to KST's terminal-bond
+ELMM — but (3.1) constrains only finite-dimensional reweightings and
+says nothing directly about the admissibility class or the asymptotic
+(large-market) closure that NAFL regulates. The residual gap is thus
+exactly the passage from finite-level measure consistency to a
+large-market no-arbitrage condition on strategies; bridging it is, to
+our understanding, equivalent to constructing the numéraire, and we
+leave it open. We flag KST as the most likely route to a resolution,
+not as an established one.
+
+Separately, the relationship between (BF) and Herdegen's (2017)
+numéraire-independent no-arbitrage $\text{NA}^{\text{ni}}$ in
+continuous-time bond markets remains open, as noted in Section 2.4.
 
 
 
@@ -792,6 +893,9 @@ liabilities." *Journal of Political Economy* 81, 637–654.
 Carmona, R. and Tehranchi, M. (2006). *Interest Rate Models: an Infinite
 Dimensional Stochastic Analysis Perspective.* Springer.
 
+Cox, A.M.G. and Hobson, D.G. (2005). "Local martingales, bubbles and
+option prices." *Finance and Stochastics* 9, 477–492.
+
 Crépey, S. et al. (2015). "Rational multi-curve models with
 counterparty-risk valuation adjustments." *Quantitative Finance* 15,
 1–20.
@@ -825,9 +929,6 @@ Springer.
 Filipović, D. and Trolle, A. (2013). "The term structure of interbank
 risk." *Journal of Financial Economics* 109, 707–733.
 
-Gatheral, J., Jaisson, T. and Rosenbaum, M. (2018). "Volatility is
-rough." *Quantitative Finance* 18, 933–949.
-
 Geman, H., El Karoui, N. and Rochet, J.-C. (1995). "Changes of
 numéraire, changes of probability measure and option pricing." *Journal
 of Applied Probability* 32, 443–458.
@@ -856,6 +957,9 @@ framework." *Mathematical Finance* 27, 568–603.
 Hobson, D.G. (1998). "Robust hedging of the lookback option."
 *Finance and Stochastics* 2, 329–347.
 
+Jarrow, R.A., Protter, P. and Shimbo, K. (2010). "Asset price bubbles
+in incomplete markets." *Mathematical Finance* 20, 145–185.
+
 Joslin, S., Singleton, K.J. and Zhu, H. (2011). "A new perspective on
 Gaussian dynamic term structure models." *Review of Financial Studies*
 24, 926–970.
@@ -878,6 +982,10 @@ models: Forward measure approach." *Finance and Stochastics* 1, 261–291.
 
 Pagan, A. (1984). "Econometric issues in the analysis of regressions
 with generated regressors." *International Economic Review* 25, 221–247.
+
+Protter, P. (2013). "A mathematical theory of financial bubbles." In
+*Paris-Princeton Lectures on Mathematical Finance 2013*, Springer,
+1–108.
 
 Samuelson, P.A. (1938). "A note on the pure theory of consumer's
 behaviour." *Economica* 5, 61–71.
