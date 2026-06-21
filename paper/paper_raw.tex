@@ -792,13 +792,22 @@ relationship to the no-asymptotic-free-lunch (NAFL) condition of Klein,
 Schmidt, and Teichmann (2016) is the most promising connection and is
 discussed separately below.
 
-\textbf{Richer model classes.} The empirical exercise operates within
-Gaussian HJM with maturity-independent \(\lambda\). Testing within model
-classes that permit maturity-dependent \(\lambda\) (Duffee 2002, Joslin,
-Singleton, and Zhu 2011) --- or within non-Gaussian specifications
-(stochastic volatility, regime-switching) --- would clarify whether the
-observed divergent pattern survives or is absorbed by a richer
-single-\(Q\) specification.
+\textbf{Richer model classes and sharper diagnostics.} The empirical
+exercise operates within Gaussian HJM with maturity-independent
+\(\lambda\). Testing within model classes that permit maturity-dependent
+\(\lambda\) (Duffee 2002, Joslin, Singleton, and Zhu 2011) --- or within
+non-Gaussian specifications (stochastic volatility, regime-switching)
+--- would clarify whether the observed divergent pattern survives or is
+absorbed by a richer single-\(Q\) specification. Two refinements would
+also sharpen the present diagnostic without changing the model class:
+bounding the first-stage (PCA) estimation error --- for instance by
+block-bootstrapping the estimation window --- so that the
+synthetic-floor margin can be read against first-stage noise; and
+partially pinning the direction of the Svensson-smoothing interaction
+with segmentation by re-fitting on raw-maturity subsets or perturbing
+the input curves. We report the present exercise under explicit caveats
+(Section 4) rather than as a calibrated test, and leave these
+refinements to future work.
 
 \textbf{The relationship to Klein--Schmidt--Teichmann, and why we do not
 claim it.} Klein, Schmidt, and Teichmann (2016) construct a generalized

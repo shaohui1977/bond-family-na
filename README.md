@@ -2,43 +2,58 @@
 
 **Forward Measure Consistency and Interest Rate Pricing**
 
-Shaohui Wang — Working paper, April 2026
+Shaohui Wang — Working paper, June 2026
 
 ## The Question
 
-The standard no-arbitrage framework for bond markets assumes the
-existence of a tradable bank account B as universal numéraire. But B
-is not directly traded — it must be synthesized via a rolling bond
-strategy that, in continuous time, requires rebalancing through
-uncountably many maturities.
-
-Meanwhile, practitioners price and hedge using T-forward measures
-Q^T, each derived from a single tradable bond, without invoking B.
+The standard no-arbitrage framework for bond markets assumes a tradable
+bank account B as universal numéraire. But B is not directly traded —
+it must be synthesized from zero-coupon bonds via a rolling strategy
+that, in continuous time, requires continuous rebalancing. Meanwhile
+practitioners price using T-forward measures Q^T, each derived from a
+single tradable bond, without invoking B.
 
 This paper asks: does the family {Q^T}, built from tradable bonds
-alone, necessarily cohere into a single global measure Q — or is Q
-an additional assumption?
+alone, necessarily cohere into a single global measure Q — or is Q (and
+therefore B) an additional assumption?
 
-## What the Paper Does
+## What the Paper Establishes
 
-**Proof of concept (Section 2).** In discrete time, consistency is
-automatic: the bank account emerges as a self-financing rolling
-strategy. A four-way FTAP equivalence identifies the precise point
-where the argument uses finiteness.
+**Proof of concept (Section 2).** In discrete time the answer is yes:
+the bank account emerges as a self-financing rolling strategy, via a
+four-way FTAP equivalence. The discreteness that does the work is
+discreteness of *trading*, not of the maturity set.
 
-**The question formalized (Section 3).** A Q-free, B-free definition
-of forward-measure consistency (Definition 3.2.1), with the question
-stated in falsifiable form. The diagonal singularity of the forward
-rate surface is identified as a possible mechanism for failure.
+**A precise, Q-free definition (Section 3).** Definition 3.2.1 states
+forward-measure consistency using only bond prices and the family
+{Q^T}, presupposing no global Q or numéraire. Lemma 2.4.1 shows the
+pairwise consistency conditions self-propagate to all finite orders
+(the cocycle is automatic) and exclude bond-ratio bubbles — so
+finite-level incompatibility is never the source of failure.
 
-**Empirical exercise (Section 4).** Independent calibration of
-Gaussian HJM models on different maturity segments of the EUR
-government bond market (ECB data, 2014–2024). The implied market
-prices of risk differ systematically across segments in a divergent
-pattern that synthetic controls cannot replicate. This does not
-answer the question — the pattern is consistent with either absence
-of Q or inadequacy of the model class — but it establishes the
-question has empirical content.
+**The obstruction, located (Section 3.4).** Given Lemma 2.4.1, the only
+thing that can fail in continuous time is the construction of the
+numéraire B itself — not measure incompatibility, and not a
+projective-limit extension problem (every Q^T already lives on the same
+probability space). The risk-neutral measure is anchored by B, not by
+any single Q^T. Whether a consistent family can exist without an
+underlying (Q, B) is the open question.
+
+**Empirical content, honestly scoped (Section 4).** A descriptive
+exercise — independent Gaussian-HJM calibration on EUR government curve
+segments (ECB, 2014–2024) — finds the implied market prices of risk
+differ systematically across maturity segments, in a divergent pattern
+that the synthetic controls examined do not reproduce. This does NOT
+answer the question: the pattern is a model-bundled proxy (it
+presupposes the Gaussian-HJM class and a maturity-independent market
+price of risk), and is consistent with either absence of Q or model
+inadequacy. It establishes only that the question has empirical
+content.
+
+The paper does not resolve the continuous-time existence question, and
+states precisely (Section 5) where the residual gap to the
+large-financial-markets results of Klein–Schmidt–Teichmann (2016) lies,
+without claiming to bridge it.
 
 ## Reproducing Results
 
@@ -52,27 +67,27 @@ pip install -r requirements.txt
 
 ### Download Data
 
-Data is fetched from the ECB Statistical Data Warehouse (public API,
-no key required).
+ECB Statistical Data Warehouse spot rates (Svensson-fitted), public
+API, no key required.
 
 ```bash
 python src/data/fetch_ecb.py
 ```
 
-### Run Tests
+### Run Exercises
 
 ```bash
 python src/tests/test1_lambda_gap.py      # Two-factor segment-wise calibration
-python src/tests/test1_robust_kappa.py    # κ₁ bound sensitivity check
+python src/tests/test1_robust_kappa.py    # kappa_1 bound sensitivity
 python src/tests/test3_robustness.py      # Three-factor comparison
-python src/tests/test_synthetic.py        # Synthetic validation (30Y and 5Y DGPs)
+python src/tests/test_synthetic.py        # Synthetic controls (30Y and 5Y DGPs)
 ```
 
 ### Build PDF
 
 ```bash
 conda install -c conda-forge pandoc tectonic -y
-cd paper && make pdf
+cd paper && make arxiv
 ```
 
 ## Structure
@@ -81,25 +96,25 @@ cd paper && make pdf
 paper/              Working paper (paper.md, paper.tex), figures
 src/data/           ECB data download
 src/models/         Gaussian HJM calibration (2- and 3-factor)
-src/synthetic/      Synthetic yield generation for validation
-src/tests/          Empirical exercises and synthetic validation
+src/synthetic/      Synthetic yield generation for the controls
+src/tests/          Empirical exercises and synthetic controls
 src/utils/          Yield curve and statistics utilities
 data/               Downloaded and generated data (gitignored, reproducible)
 ```
 
 ## Key References
 
-- Klein, Schmidt, and Teichmann (2016). "No arbitrage theory for
-  bond markets." — Closest prior work; bond markets without bank account.
+- Klein, Schmidt, and Teichmann (2016). "No arbitrage theory for bond
+  markets." — Closest prior work; bond markets without a bank account.
 - Herdegen (2017). "No-arbitrage in a numéraire-independent modeling
   framework." — Numéraire-free FTAP for general markets.
-- Musiela and Rutkowski (1997). — Uniqueness of implied savings
-  account (existence taken as given; our question is the complement).
+- Musiela and Rutkowski (1997). — Uniqueness of the implied savings
+  account (existence assumed; our question is the complement).
 
 ## Acknowledgments
 
-Developed in collaboration with Claude (Anthropic, Opus). See the
-paper's Acknowledgments section for details.
+Developed in collaboration with Claude (Anthropic). See the paper's
+Acknowledgments section for details.
 
 ## License
 
