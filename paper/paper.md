@@ -262,20 +262,20 @@ $t$ (Section 3.4). That a consistent family glues into a global
 $(Q, B)$ is, under discrete trading, a consequence of finitude, not of
 structure.
 
-**Lemma 2.4.1 (Pairwise consistency is self-propagating).** *If a
-family $\{Q^T\}$ satisfies (3.1) for every pair, it satisfies the
-triple relation automatically: for $T_1 < T_2 < T_3$,*
+**Lemma 2.4.1 (Pairwise consistency is self-propagating).** *Under
+the true-martingale hypothesis of Definition 3.2.1, if a family
+$\{Q^T\}$ satisfies (3.1) for every pair, it satisfies the triple
+relation automatically: for $T_1 < T_2 < T_3$,*
 $$\frac{dQ^{T_1}}{dQ^{T_3}}\bigg|_{\mathcal{F}_{T_1}} = \frac{dQ^{T_1}}{dQ^{T_2}}\bigg|_{\mathcal{F}_{T_1}} \cdot \frac{dQ^{T_2}}{dQ^{T_3}}\bigg|_{\mathcal{F}_{T_1}}.$$
 
-*Proof.* Condition (3.1) for the pair $(T_2, T_3)$ states that
-$dQ^{T_2}/dQ^{T_3}$ restricted to $\mathcal{F}_t$ equals the
-change-of-numéraire density
-$\frac{p(0,T_3)}{p(0,T_2)} \cdot \frac{p(t,T_2)}{p(t,T_3)}$ — a bona
-fide $Q^{T_3}$-density precisely because the bond ratio is a true
-martingale rather than a strict local one (the bubble-exclusion of
-Section 3.2). Evaluating at $t = T_1$ and multiplying by (3.1) for
-$(T_1, T_2)$ returns (3.1) for $(T_1, T_3)$ by cancellation of
-$p(T_1,T_2)$ and $p(0,T_2)$. $\square$
+*Proof.* By the true-martingale hypothesis, the bond ratio
+$p(\cdot,T_2)/p(\cdot,T_3)$ is a true $Q^{T_3}$-martingale on $[0,T_2]$,
+so optional sampling at $t = T_1$ is valid and (3.1) for the pair
+$(T_2, T_3)$ gives
+$\frac{dQ^{T_2}}{dQ^{T_3}}\big|_{\mathcal{F}_{T_1}}
+= \frac{p(0,T_3)}{p(0,T_2)} \cdot \frac{p(T_1,T_2)}{p(T_1,T_3)}$.
+Multiplying by (3.1) for $(T_1, T_2)$ and cancelling $p(T_1,T_2)$ and
+$p(0,T_2)$ returns (3.1) for $(T_1, T_3)$. $\square$
 
 The cocycle is therefore not an additional requirement: pairwise
 consistency is never the source of failure. Whatever obstructs the
@@ -316,30 +316,35 @@ $(\Omega, \mathcal{F})$, each equivalent to $\mathbb{P}$, indexed by a
 set of maturities $\mathcal{T} \subseteq [0, T^*]$. Assume that for
 each $T$, $S(t)/p(t,T)$ is a $Q^T$-local martingale on $[0,T]$ for
 all traded assets $S$, including bonds of all maturities (the
-forward martingale property). The family is *consistent* if for all
+forward martingale property), and that for each pair $T_1 < T_2$ the
+bond ratio $p(\cdot,T_1)/p(\cdot,T_2)$ is a *true* $Q^{T_2}$-martingale
+on $[0,T_1]$ — equivalently, no bond-ratio bubble arises up to the
+shorter maturity. The family is *consistent* if for all
 $T_1 < T_2$ in $\mathcal{T}$:
 
 $$\frac{dQ^{T_1}}{dQ^{T_2}}\bigg|_{\mathcal{F}_{T_1}} = \frac{p(0,T_2)}{p(0,T_1) \cdot p(T_1,T_2)}.   \quad (3.1)$$
 
-Two remarks on the status of (3.1). First, it is a genuine
-condition, not a consequence of the forward martingale property.
-Under $Q^{T_2}$, the change of numéraire from the $T_2$-bond to the
-$T_1$-bond produces *a* measure with density (3.1) — and that
-measure is a valid $T_1$-forward measure. But in an incomplete
-market forward measures are not unique, and the family member
-$Q^{T_1}$ need not coincide with this numéraire-change image.
-Consistency is precisely the requirement that the family's
-selections are mutually compatible. Second, (3.1) implicitly
-requires the bond-price ratios to be true $Q^{T_2}$-martingales
-rather than strict local martingales: if $p(\cdot,T_1)/p(\cdot,T_2)$
-were a strict local martingale (a bond-ratio bubble), the
-right-hand side of (3.1) would integrate to less than one and could
-not serve as a Radon-Nikodym density. Pairwise consistency thus
-already excludes bond-ratio bubbles. (On strict-local-martingale bubbles and their characterisation via
-change of numéraire, see Cox and Hobson 2005, Jarrow, Protter, and
-Shimbo 2010, and Protter 2013.) Each pair excludes a bubble only up to
-the shorter of its two maturities, so the family-level statement is
-that bubbles are excluded over all horizons spanned by the family.
+A remark on the status of (3.1). It is a genuine condition, not a
+consequence of the bare forward martingale property. Under $Q^{T_2}$,
+the change of numéraire from the $T_2$-bond to the $T_1$-bond produces
+*a* measure with density (3.1) — a valid $T_1$-forward measure. But in
+an incomplete market forward measures are not unique, and the family
+member $Q^{T_1}$ need not coincide with this numéraire-change image.
+Consistency is precisely the requirement that the family's selections
+are mutually compatible. Note that the true-martingale clause in the
+definition's standing assumption is exactly what makes the right-hand
+side of (3.1) a bona fide Radon-Nikodym density: for the pair
+$(T_1,T_2)$ the bond ratio $p(\cdot,T_1)/p(\cdot,T_2)$ is a non-negative
+$Q^{T_2}$-local martingale with terminal value $1/p(T_1,T_2)$, hence a
+supermartingale, and its expectation equals $p(0,T_1)/p(0,T_2)$ — so
+(3.1) integrates to one — if and only if it is a true martingale rather
+than a strict local one. A strict local martingale (a bond-ratio
+bubble) would make the right-hand side integrate to less than one. The
+definition therefore *presupposes* the absence of bond-ratio bubbles up
+to each shorter maturity; it does not derive it. (On strict-local-
+martingale bubbles and their characterisation via change of numéraire,
+see Cox and Hobson 2005, Jarrow, Protter, and Shimbo 2010, and Protter
+2013.)
 
 **Remark.** When $\mathcal{T}$ is finite, condition (3.1) suffices:
 Proposition 2.3.1 constructs $Q$ and $B$ from the family. By Lemma
@@ -428,8 +433,13 @@ the *joint* surface near the diagonal $T = t$, and we are aware of no
 evidence that EUR forward surfaces are irregular in this sense —
 indeed their evident smoothness in the maturity direction (which is
 what makes parametric fits such as Svensson viable) cuts the other
-way. We flag the diagonal as the natural place to look for an
-obstruction, while making no claim that one exists.
+way. We stress, however, that the relevant regularity is the *joint*
+behaviour of $(s,T) \mapsto f(s,T)$ as $T \to s$ — the diagonal-approach
+regularity — which is not the same as marginal smoothness in $T$ at
+fixed $s$; smoothness of each maturity slice does not by itself control
+how the slices behave in the limit $T \to s$. We flag the diagonal as
+the natural place to look for an obstruction, while making no claim
+that one exists.
 
 Finally, a logical caveat. Failure to construct $B$ would not, by
 itself, mean the family $\{Q^T\}$ violates (3.1) — by Lemma 2.4.1 it
@@ -719,13 +729,17 @@ under a topology on terminal wealths. Condition (3.1) is a condition on
 form and, by Lemma 2.4.1, glues consistently at every finite level. A
 consistent family yields, for each terminal maturity $T^*$, a single
 measure $Q^{T^*}$ under which all bonds are local martingales after
-deflation by $p(\cdot, T^*)$ — which is close to KST's terminal-bond
-ELMM — but (3.1) constrains only finite-dimensional reweightings and
-says nothing directly about the admissibility class or the asymptotic
-(large-market) closure that NAFL regulates. The residual gap is thus
+deflation by $p(\cdot, T^*)$. This resembles KST's terminal-bond ELMM
+in form, but differs in scope: KST's ELMM is required to control the
+full large-market admissibility closure (sequences of admissible
+strategies and their terminal-wealth limits), whereas the
+family-derived $Q^{T^*}$ controls only the finite-dimensional
+reweightings that (3.1) encodes and need not regulate that closure.
+Condition (3.1) thus says nothing directly about the admissibility
+class or the asymptotic closure that NAFL governs. The residual gap is thus
 exactly the passage from finite-level measure consistency to a
-large-market no-arbitrage condition on strategies; bridging it is, to
-our understanding, equivalent to constructing the numéraire, and we
+large-market no-arbitrage condition on strategies; bridging it, to our
+understanding, amounts to constructing the numéraire, and we
 leave it open. We flag KST as the most likely route to a resolution,
 not as an established one.
 
