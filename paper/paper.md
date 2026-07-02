@@ -2,7 +2,7 @@
 title: Does the Bond Market Need a Bank Account?
 subtitle: Forward Measure Consistency and Interest Rate Pricing
 author: Shaohui Wang^[shaohui.wang@hotmail.com]
-date: June 2026
+date: July 2026
 ---
 
 
@@ -22,14 +22,17 @@ a single global measure $Q$ — or is $Q$ (and therefore $B$) an
 additional assumption?
 
 We formalize this question and show it has substance. In discrete
-time, consistency is automatic: the bank account emerges as a
-self-financing rolling strategy, and we prove a four-way FTAP
-equivalence as proof of concept. In continuous time, we provide a
-precise, $Q$-free definition of forward-measure consistency
-(Definition 3.2.1) and state the question in a falsifiable form. We
-identify the diagonal singularity of the forward rate surface as a
-possible mechanism for failure, though establishing whether it
-actually occurs in bond markets remains open.
+time the answer is yes: a consistent family of forward measures
+always exists, and the bank account emerges as a self-financing
+rolling strategy via a four-way FTAP equivalence. In continuous time,
+we provide a precise, $Q$-free definition of forward-measure
+consistency (Definition 3.2.1), under which the pairwise conditions
+provably self-propagate (Lemma 2.4.1), with bond-ratio bubbles
+excluded by hypothesis. The obstruction to a global $Q$ is therefore
+neither incompatibility of the measure family nor a projective-limit
+extension problem: it is the construction of the numéraire $B$
+itself. We state the resulting existence question in a falsifiable
+form and leave it open.
 
 To demonstrate that the question is not vacuous, we conduct a
 descriptive empirical exercise: independent calibration of Gaussian
@@ -79,16 +82,18 @@ the bottom up. If no, the standard theory requires an assumption
 (the existence of $Q$ and $B$) that goes beyond what tradable
 instruments can deliver.
 
-In discrete time, we show the answer is yes: consistency is automatic
-and $B$ is constructible (Section 2). In continuous time, we
-formalize the question precisely and leave it open (Section 3). We
-then present a descriptive empirical exercise showing the question
+In discrete time, we show the answer is yes: a consistent family
+always exists and $B$ is constructible (Section 2). In continuous
+time, we formalize the question precisely, locate the obstruction in
+the construction of the numéraire $B$, and leave it open (Section 3).
+We then present a descriptive empirical exercise showing the question
 has empirical content (Section 4).
 
 To be clear about what is and is not established: we contribute (i) a
 precise, $Q$-free definition of forward-measure consistency
 (Definition 3.2.1), under which the pairwise conditions provably
-self-propagate (Lemma 2.4.1) and exclude bond-ratio bubbles; (ii) the
+self-propagate (Lemma 2.4.1), with bond-ratio bubbles excluded by
+hypothesis; (ii) the
 identification of the numéraire $B$ — not measure incompatibility, and
 not a projective-limit problem — as the sole locus of the
 continuous-time obstruction (Section 3.4); and (iii) a descriptive
@@ -121,7 +126,8 @@ two starting points is, to our knowledge, not established.
 Klein-Schmidt-Teichmann's generalized bank account is a limit object
 that may differ from the classical $B$; whether pairwise consistency
 of $\{Q^T\}$ implies NAFL (or vice versa) is an open question that
-connects our work to theirs.
+connects our work to theirs; Section 5 states the residual gap
+precisely.
 
 Herdegen (2017) develops a numéraire-independent FTAP for general
 markets. Whether his condition $\text{NA}^{\text{ni}}$ coincides
@@ -167,11 +173,13 @@ development of the paper, not at the outset.
 
 ## 1.3 Structure
 
-Section 2 establishes the proof of concept: in discrete time,
-forward-measure consistency is automatic. Section 3 formalizes the
-continuous-time question. Section 4 presents a descriptive empirical
-exercise demonstrating the question has empirical content. Section 5
-identifies directions for future investigation.
+Section 2 establishes the proof of concept: in discrete time, a
+consistent family of forward measures always exists and glues into a
+global $(Q, B)$. Section 3 formalizes the continuous-time question
+and locates the obstruction in the numéraire. Section 4 presents a
+descriptive empirical exercise demonstrating the question has
+empirical content. Section 5 identifies directions for future
+investigation.
 
 
 
@@ -287,7 +295,7 @@ strictly positive prices, Herdegen's numéraire-independent
 no-arbitrage ($\text{NA}^{\text{ni}}$) coincides with NA in discrete
 time: with finitely many assets all having strictly positive prices,
 any numéraire is equivalent to any other, and the no-arbitrage
-conditions coincide (Herdegen 2017, Proposition 3.5). Our Bond-Family
+conditions coincide (Herdegen 2017). Our Bond-Family
 formulation (BF) is the only condition among the four equivalences
 that extends to continuous time without assuming $B$. Whether (BF)
 in continuous time is equivalent to, weaker than, or stronger than
@@ -316,7 +324,8 @@ $(\Omega, \mathcal{F})$, each equivalent to $\mathbb{P}$, indexed by a
 set of maturities $\mathcal{T} \subseteq [0, T^*]$. Assume that for
 each $T$, $S(t)/p(t,T)$ is a $Q^T$-local martingale on $[0,T]$ for
 all traded assets $S$, including bonds of all maturities (the
-forward martingale property), and that for each pair $T_1 < T_2$ the
+forward martingale property; for a bond $p(\cdot,T')$ with $T' < T$,
+the requirement is on $[0, T' \wedge T]$), and that for each pair $T_1 < T_2$ the
 bond ratio $p(\cdot,T_1)/p(\cdot,T_2)$ is a *true* $Q^{T_2}$-martingale
 on $[0,T_1]$ — equivalently, no bond-ratio bubble arises up to the
 shorter maturity. The family is *consistent* if for all
@@ -386,8 +395,15 @@ The question of this paper:
 > *Given a family $\{Q^T\}_{T \in [0,T^*]}$ satisfying Definition
 > 3.2.1, does there exist a probability measure $Q \sim \mathbb{P}$
 > and a strictly positive adapted process $B$ such that $S(t)/B(t)$
-> is a $Q$-local martingale for all traded assets, with each $Q^T$
-> being the T-forward measure induced by $Q$?*
+> is a $Q$-local martingale for all traded assets, each deflated bond
+> $p(\cdot,T)/B$ is a *true* $Q$-martingale, and each $Q^T$ coincides
+> on $\mathcal{F}_T$ with the T-forward measure induced by $Q$?*
+
+The true-martingale requirement on deflated bonds mirrors the
+standing assumption of Definition 3.2.1: it is what makes each
+induced density $Z^T_t = p(t,T)/[B(t)\,p(0,T)]$ a bona fide
+Radon-Nikodym derivative, so that the induced forward measures are
+well-defined.
 
 In discrete time the answer is yes (Section 2). In continuous time
 it is, to our knowledge, open.
@@ -441,9 +457,10 @@ how the slices behave in the limit $T \to s$. We flag the diagonal as
 the natural place to look for an obstruction, while making no claim
 that one exists.
 
-Finally, a logical caveat. Failure to construct $B$ would not, by
-itself, mean the family $\{Q^T\}$ violates (3.1) — by Lemma 2.4.1 it
-cannot. It would mean the consistent family does not arise from any
+Finally, a logical caveat. Failure to construct $B$ would not mean
+the family $\{Q^T\}$ violates (3.1): a consistent family satisfies
+(3.1) by definition, and Lemma 2.4.1 shows its finite-level coherence
+is automatic. It would mean the consistent family does not arise from any
 single $Q$ via a numéraire change. Whether a consistent family can
 exist *without* an underlying $(Q, B)$ is precisely the open question;
 the discrete case shows it cannot happen there, and we do not know
@@ -632,12 +649,13 @@ gaps in the range $|\Delta\lambda_1| \approx 0.01$–$0.09$, uniformly
 across all segment pairs. This reflects PCA basis heterogeneity —
 each segment's PCA produces slightly different basis functions,
 generating apparent gaps even when true $\lambda$ is constant. The
-empirical short-vs-long gaps ($0.25$–$0.41$) exceed this floor by a
-factor of 4–20$\times$.
+empirical short-vs-long gaps ($0.25$–$0.41$) exceed the same-pair
+synthetic residuals by factors of roughly 3–16$\times$, computed pair
+by pair across the 5Y-anchor pairs.
 
 Repeating with parameters from the 5Y segment produces a different
 synthetic pattern: large gaps with reversed sign
-($\Delta\lambda_1 \approx +0.16$ to $+0.22$ for short-vs-long
+($\Delta\lambda_1 \approx +0.14$ to $+0.22$ across the 5Y-anchor
 pairs). Neither DGP reproduces the empirical divergent geometry.
 The synthetic exercise is sensitive to DGP specification, which
 limits its probative value — but it does establish that the
@@ -734,11 +752,11 @@ condition on *trading strategies* in the large financial market
 generated by all bonds: it controls sequences of admissible portfolios
 under a topology on terminal wealths. Condition (3.1) is a condition on
 *measures*: it pins each pairwise density to the change-of-numéraire
-form and, by Lemma 2.4.1, glues consistently at every finite level. A
-consistent family yields, for each terminal maturity $T^*$, a single
-measure $Q^{T^*}$ under which all bonds are local martingales after
-deflation by $p(\cdot, T^*)$. This resembles KST's terminal-bond ELMM
-in form, but differs in scope: KST's ELMM is required to control the
+form and, by Lemma 2.4.1, glues consistently at every finite level. Each family member $Q^{T^*}$ is, by the standing assumptions of
+Definition 3.2.1, a measure under which every bond deflated by
+$p(\cdot, T^*)$ is a *true* martingale, and every other traded asset a
+local martingale. This resembles KST's terminal-bond ELMM in form, but
+differs in scope: KST's ELMM is required to control the
 full large-market admissibility closure (sequences of admissible
 strategies and their terminal-wealth limits), whereas the
 family-derived $Q^{T^*}$ controls only the finite-dimensional
@@ -766,12 +784,17 @@ or whether $Q$ is an additional assumption beyond what tradable
 instruments can deliver.
 
 In discrete time, the answer is yes: the bank account is
-constructible as a self-financing rolling strategy, and forward-
-measure consistency is automatic. In continuous time, the question
-is open. We formalized it precisely (Definition 3.2.1), identified
-a possible mechanism for failure (the diagonal singularity), and
-noted connections to the HJM drift condition, the projective limit
-framework, and the large-financial-markets FTAP literature.
+constructible as a self-financing rolling strategy, and a consistent
+family of forward measures always exists. In continuous time, the
+question is open. We formalized it precisely (Definition 3.2.1),
+showed that the pairwise consistency conditions self-propagate
+(Lemma 2.4.1) with bond-ratio bubbles excluded by hypothesis, and
+located the obstruction where it lives: not in the compatibility of
+the measure family, nor in a projective-limit extension, but in the
+construction of the numéraire $B$ (Section 3.4). We stated the
+precise residual gap to the large-financial-markets results of
+Klein, Schmidt, and Teichmann (2016) without claiming to bridge it,
+and noted the textbook connection to the HJM drift condition.
 
 To demonstrate that the question is not vacuous, we conducted a
 descriptive empirical exercise. Within the Gaussian HJM class with
@@ -799,7 +822,7 @@ traded? The question lay dormant for eighteen years until the
 tools existed to revisit it.
 
 The present paper was developed in extended collaboration with
-Claude (Anthropic, Opus). Claude's contributions included:
+Claude (Anthropic). Claude's contributions included:
 identifying the original dissertation result as an algebraic
 identity rather than an independent FTAP, which redirected the
 investigation toward the genuinely open continuous-time question;
