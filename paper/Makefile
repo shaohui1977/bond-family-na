@@ -3,7 +3,7 @@ PANDOC    = $(CONDA_RUN) pandoc
 TECTONIC  = $(CONDA_RUN) tectonic
 PYTHON    = $(CONDA_RUN) python
 SRC       = paper.md
-OUT       = bond_family_na.pdf
+OUT       = paper.pdf
 ARXIV_OUT = paper.pdf
 RAW_TEX   = paper_raw.tex
 FIXED_TEX = paper.tex
@@ -27,6 +27,10 @@ pdf:
 
 # arXiv build: paper.md → paper_raw.tex (pandoc) → paper.tex (fix_tex.py) → paper.pdf (tectonic)
 # Rebuilds whenever paper.md or fix_tex.py changes.
+# STALE as of the September 2026 rewrite: fix_tex.py's citation table is
+# keyed to exact old-paper prose and paper.bib is out of date (see
+# CLAUDE_CONTEXT.md). Use `make pdf` until both are rewritten to match the
+# current paper.md.
 arxiv: $(SRC) fix_tex.py paper.bib
 	@echo "--- Step 1: pandoc paper.md → paper_raw.tex"
 	$(PANDOC) --standalone -o $(RAW_TEX) $(SRC)

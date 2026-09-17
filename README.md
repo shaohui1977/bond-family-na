@@ -1,61 +1,62 @@
 # Does the Bond Market Need a Bank Account?
 
-**Forward Measure Consistency and Interest Rate Pricing**
+**Forward-Measure Families, Pricing Kernels, and When the Savings Account Is a Numéraire**
 
-Shaohui Wang — Working paper, June 2026
+Shaohui Wang — September 2026
 
 ## The Question
 
-The standard no-arbitrage framework for bond markets assumes a tradable
-bank account B as universal numéraire. But B is not directly traded —
-it must be synthesized from zero-coupon bonds via a rolling strategy
-that, in continuous time, requires continuous rebalancing. Meanwhile
-practitioners price using T-forward measures Q^T, each derived from a
-single tradable bond, without invoking B.
-
-This paper asks: does the family {Q^T}, built from tradable bonds
-alone, necessarily cohere into a single global measure Q — or is Q (and
-therefore B) an additional assumption?
+Practitioners price interest-rate derivatives with $T$-forward measures, each
+anchored by a traded bond; the textbook theory starts from a bank account that
+is not traded. This note asks what the family of forward measures implies by
+itself, and in particular whether it implies a bank account.
 
 ## What the Paper Establishes
 
-**Proof of concept (Section 2).** In discrete time the answer is yes:
-the bank account emerges as a self-financing rolling strategy, via a
-four-way FTAP equivalence. The discreteness that does the work is
-discreteness of *trading*, not of the maturity set.
+**Pricing needs no bank account (Section 3).** A consistent family of
+forward measures — defined without reference to any risk-neutral measure or
+account (Definition 3.1) — is shown to be exactly a pricing kernel in other
+coordinates (Theorem 3.2), with no semimartingale property, no supermartingale
+property, and no path regularity implied beyond it. The terminal bond is
+always a numéraire.
 
-**A precise, Q-free definition (Section 3).** Definition 3.2.1 states
-forward-measure consistency using only bond prices and the family
-{Q^T}, presupposing no global Q or numéraire. Lemma 2.4.1 shows the
-pairwise consistency conditions self-propagate to all finite orders
-(the cocycle is automatic) and exclude bond-ratio bubbles — so
-finite-level incompatibility is never the source of failure.
+**At every finite tenor structure the bank account exists (Section 4.1).**
+For any finite set of roll-over dates, the roll-over strategy in
+just-maturing bonds is a numéraire under consistency alone (Proposition
+4.1) — no further condition is needed. This is the discrete-time bank
+account of Section 2, generalized, and the spot LIBOR measure of Jamshidian
+(1997).
 
-**The obstruction, located (Section 3.4).** Given Lemma 2.4.1, the only
-thing that can fail in continuous time is the construction of the
-numéraire B itself — not measure incompatibility, and not a
-projective-limit extension problem (every Q^T already lives on the same
-probability space). The risk-neutral measure is anchored by B, not by
-any single Q^T. Whether a consistent family can exist without an
-underlying (Q, B) is the open question.
+**In continuous time the account need not be a numéraire (Section 4.2–4.3).**
+A savings account — a predictable numéraire of finite variation — exists if
+and only if the terminal bond's generator is *good* in the sense of Döberlein
+and Schweizer (2001): its multiplicative decomposition has a *true*
+martingale factor. Consistency does not imply goodness. An explicit example
+— built on Platen's minimal market model and used for this purpose by Klein,
+Schmidt, and Teichmann (2016) — has a smooth, strictly decreasing term
+structure and a zero short rate, and no savings account: every finite
+roll-over is priced at par, and the limit is not (Propositions 4.8–4.9,
+Appendix B).
 
-**Empirical content, honestly scoped (Section 4).** A descriptive
-exercise — independent Gaussian-HJM calibration on EUR government curve
-segments (ECB, 2014–2024) — finds the implied market prices of risk
-differ systematically across maturity segments, in a divergent pattern
-that the synthetic controls examined do not reproduce. This does NOT
-answer the question: the pattern is a model-bundled proxy (it
-presupposes the Gaussian-HJM class and a maturity-independent market
-price of risk), and is consistent with either absence of Q or model
-inadequacy. It establishes only that the question has empirical
-content.
+**What data can and cannot say (Section 5).** Existence of a pricing kernel
+has no model-free testable content on a panel of bond prices; whether the
+account is a numéraire is a statement about states a sample does not visit.
+Both questions can only be probed jointly with a parametric model class. The
+segment-wise Gaussian-HJM calibration exercise in this repository (see
+below) is discussed in this light: disagreement in the calibrated market
+price of risk across maturity segments is a diagnostic of the model class,
+not evidence for or against either question.
 
-The paper does not resolve the continuous-time existence question, and
-states precisely (Section 5) where the residual gap to the
-large-financial-markets results of Klein–Schmidt–Teichmann (2016) lies,
-without claiming to bridge it.
+This is a theory note, not a question paper: (i) and (ii) settle what
+practitioners' forward-measure approach implies on its own; (iii) is a known
+result (the benchmark-approach / bubble literature), reformulated and proved
+elementarily in the forward-measure language used here. See the paper's
+§1.3 for the precise attribution of what is new and what is not.
 
-## Reproducing Results
+## Reproducing the Empirical Illustration
+
+The calibration exercise below is a diagnostic discussed in Section 5, not a
+test of the paper's theorems (which are settled by construction).
 
 ### Setup
 
@@ -67,8 +68,8 @@ pip install -r requirements.txt
 
 ### Download Data
 
-ECB Statistical Data Warehouse spot rates (Svensson-fitted), public
-API, no key required.
+ECB Statistical Data Warehouse spot rates (Svensson-fitted), public API, no
+key required.
 
 ```bash
 python src/data/fetch_ecb.py
@@ -87,13 +88,13 @@ python src/tests/test_synthetic.py        # Synthetic controls (30Y and 5Y DGPs)
 
 ```bash
 conda install -c conda-forge pandoc tectonic -y
-cd paper && make arxiv
+cd paper && make pdf
 ```
 
 ## Structure
 
 ```
-paper/              Working paper (paper.md, paper.tex), figures
+paper/              Paper (paper.md, paper.pdf), figures
 src/data/           ECB data download
 src/models/         Gaussian HJM calibration (2- and 3-factor)
 src/synthetic/      Synthetic yield generation for the controls
@@ -104,16 +105,18 @@ data/               Downloaded and generated data (gitignored, reproducible)
 
 ## Key References
 
-- Klein, Schmidt, and Teichmann (2016). "No arbitrage theory for bond
-  markets." — Closest prior work; bond markets without a bank account.
-- Herdegen (2017). "No-arbitrage in a numéraire-independent modeling
-  framework." — Numéraire-free FTAP for general markets.
-- Musiela and Rutkowski (1997). — Uniqueness of the implied savings
-  account (existence assumed; our question is the complement).
+- Döberlein, F. and Schweizer, M. (2001). "On savings accounts in
+  semimartingale term structure models." — Goodness; the existence
+  mechanism for a savings account.
+- Klein, I., Schmidt, T., and Teichmann, J. (2016). "No arbitrage theory for
+  bond markets." — Terminal-bond numéraire; the example used in Section 4.3.
+- Musiela, M. and Rutkowski, M. (1997). "Continuous-time term structure
+  models: forward measure approach." — The forward-measure axiomatization
+  this note takes as primitive.
 
 ## Acknowledgments
 
-Developed in collaboration with Claude (Anthropic). See the paper's
+Developed in extended collaboration with Claude (Anthropic). See the paper's
 Acknowledgments section for details.
 
 ## License
