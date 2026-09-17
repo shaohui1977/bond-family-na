@@ -8,41 +8,38 @@ date: July 2026
 
 # Abstract
 
-The standard no-arbitrage framework for bond markets assumes the
-existence of a tradable bank account $B(t)$ as universal numéraire.
-But $B$ is not directly traded — it must be synthesized from
-zero-coupon bonds via a rolling strategy that, in continuous time,
-requires rebalancing through uncountably many maturities. Meanwhile,
-practitioners price and hedge using T-forward measures $Q^T$, each
-derived from a single tradable bond, without invoking $B$ at all.
+The standard no-arbitrage framework for bond markets assumes a
+tradable bank account $B$ as universal numéraire. But $B$ is not
+directly traded — it must be synthesized from zero-coupon bonds via a
+rolling strategy that, in continuous time, requires continuous
+rebalancing rather than a finite sequence of trades. Practitioners
+meanwhile price with T-forward measures $Q^T$, each anchored by a
+single tradable bond, and never invoke $B$.
 
-This raises a question: does the family $\{Q^T\}$ of local pricing
-measures, built from tradable bonds alone, necessarily assemble into
-a single global measure $Q$ — or is $Q$ (and therefore $B$) an
-additional assumption?
+We ask whether the family $\{Q^T\}$, built from tradable bonds alone,
+assembles into a single risk-neutral measure $Q$ — or whether $Q$ is
+an additional assumption. The answer splits. In discrete time, in any
+arbitrage-free model a consistent family exists and the bank account
+emerges as a self-financing rolling strategy, yielding a four-way
+FTAP equivalence. In continuous time, we give a precise $Q$-free
+definition of forward-measure consistency, prove that a global
+measure then always exists — the family glues constructively to the
+terminal bond as numéraire, with consistency against the terminal
+maturity alone sufficing — and show that the remaining content of the
+title question is the existence of an implied savings account: a
+predictable numéraire of finite variation inducing the given family.
+By a theorem of Döberlein and Schweizer, this reduces to a
+decomposition property (goodness) of the terminal bond; whether bare
+consistency forces that property is, to our knowledge, open, and we
+isolate its three separable failure channels.
 
-We formalize this question and show it has substance. In discrete
-time the answer is yes: a consistent family of forward measures
-always exists, and the bank account emerges as a self-financing
-rolling strategy via a four-way FTAP equivalence. In continuous time,
-we provide a precise, $Q$-free definition of forward-measure
-consistency (Definition 3.2.1), under which the pairwise conditions
-provably self-propagate (Lemma 2.4.1), with bond-ratio bubbles
-excluded by hypothesis. The obstruction to a global $Q$ is therefore
-neither incompatibility of the measure family nor a projective-limit
-extension problem: it is the construction of the numéraire $B$
-itself. We state the resulting existence question in a falsifiable
-form and leave it open.
-
-To demonstrate that the question is not vacuous, we conduct a
-descriptive empirical exercise: independent calibration of Gaussian
-HJM models on different maturity segments of the EUR government bond
-market. The implied market prices of risk differ systematically
-across segments, in a divergent pattern that the synthetic controls
-we examined do not replicate. This does not answer the question — the observed pattern
-is consistent with either absence of a single $Q$ or the inadequacy
-of the model class used — but it establishes that the question has
-empirical content.
+A descriptive exercise on EUR government curves (independent
+segment-wise Gaussian-HJM calibration) finds systematically
+incompatible market prices of risk across maturity segments, in a
+divergent pattern that the synthetic controls we examined do not
+replicate — consistent with absence of a single $Q$, with inadequacy
+of the model class used, or with artefacts of the model-fitted input
+curves, but establishing that the question has empirical content.
 
 
 
@@ -82,24 +79,34 @@ the bottom up. If no, the standard theory requires an assumption
 (the existence of $Q$ and $B$) that goes beyond what tradable
 instruments can deliver.
 
-In discrete time, we show the answer is yes: a consistent family
-always exists and $B$ is constructible (Section 2). In continuous
-time, we formalize the question precisely, locate the obstruction in
-the construction of the numéraire $B$, and leave it open (Section 3).
-We then present a descriptive empirical exercise showing the question
-has empirical content (Section 4).
+In discrete time, we show the answer is yes: absent arbitrage, a
+consistent family exists and $B$ is constructible (Section 2). In
+continuous time, we prove that a global measure always exists — the
+family glues to the terminal bond as numéraire (Proposition 3.3.1) —
+and reduce the remaining question, via Döberlein and Schweizer
+(2001), to whether consistency forces a decomposition property of
+the terminal bond; this we leave open (Section 3). We then present a
+descriptive empirical exercise showing the question has empirical
+content (Section 4).
 
 To be clear about what is and is not established: we contribute (i) a
 precise, $Q$-free definition of forward-measure consistency
 (Definition 3.2.1), under which the pairwise conditions provably
 self-propagate (Lemma 2.4.1), with bond-ratio bubbles excluded by
-hypothesis; (ii) the
-identification of the numéraire $B$ — not measure incompatibility, and
-not a projective-limit problem — as the sole locus of the
-continuous-time obstruction (Section 3.4); and (iii) a descriptive
-demonstration that the question has empirical content (Section 4). We
-do not resolve the continuous-time existence question, and we do not
-claim a relationship to existing large-market results beyond a precise
+hypothesis; (ii) a constructive existence theorem (Proposition
+3.3.1): under the definition a global measure and numéraire always
+exist — the terminal bond glues the family — with consistency against
+the terminal maturity alone implying full consistency (Corollary
+3.3.2); (iii) an exact reduction (Proposition 3.3.3): an implied
+savings account inducing the family exists if and only if the
+terminal generating pair is *good* in the sense of Döberlein and
+Schweizer (2001) — so the residual open question is precisely whether
+consistency implies goodness, with three separable failure channels
+(Sections 3.3–3.4); and (iv) a descriptive demonstration that the
+question has empirical content (Section 4). The existence mechanism
+behind the reduction is Döberlein and Schweizer's, not ours; we do
+not resolve whether consistency implies goodness, and we do not claim
+a relationship to existing large-market results beyond a precise
 statement of the residual gap (Section 5).
 
 ## 1.2 Related Work
@@ -107,7 +114,14 @@ statement of the residual gap (Section 5).
 Musiela and Rutkowski (1997) and Döberlein, Schweizer, and Stricker
 (2000) proved uniqueness of the implied savings account — but took
 existence as given. Our question is the complement: existence given
-local data.
+local data. Proposition 3.3.1 makes the complement exact — a global
+measure with a bond numéraire always exists — and Döberlein and
+Schweizer (2001) supply the existence mechanism for the savings
+account itself: it exists precisely when a generating pair is *good*
+(their Theorem 5, via the multiplicative decomposition of
+semimartingales). What remains, and what we pose, is whether bare
+consistency of the family forces goodness of the terminal pair
+(Proposition 3.3.3, Section 3.4).
 
 The closest existing work is Klein, Schmidt, and Teichmann (2016),
 who investigate bond markets where "the bank account process is not
@@ -358,17 +372,17 @@ see Cox and Hobson 2005, Jarrow, Protter, and Shimbo 2010, and Protter
 **Remark.** When $\mathcal{T}$ is finite, condition (3.1) suffices:
 Proposition 2.3.1 constructs $Q$ and $B$ from the family. By Lemma
 2.4.1 the pairwise conditions are mutually compatible at every finite
-level even when $\mathcal{T}$ is a continuum — so the obstruction to a
-global $Q$, if any, is *not* incompatibility of the measure family,
-nor a projective-limit extension problem (every $Q^T$ already lives on
-the same $(\Omega, \mathcal{F})$; nothing must be extended to a limit
-space). What a global risk-neutral measure requires beyond the family
-is a *numéraire process* $B$: a single $Q \sim \mathbb{P}$ and a
-strictly positive adapted $B$ with
+level even when $\mathcal{T}$ is a continuum — and in fact a global
+$Q$ faces no obstruction at all: Proposition 3.3.1 below constructs a
+pair $(Q, B)$ explicitly, with the terminal bond as numéraire. What a
+global risk-neutral measure requires beyond the family is a
+*numéraire process* $B$ — a single $Q \sim \mathbb{P}$ and a strictly
+positive adapted $B$ with
 $\frac{dQ^T}{dQ}\big|_{\mathcal{F}_t} = \frac{p(t,T)}{B(t) p(0,T)}$
-for every $T$. The risk-neutral measure is not any single $Q^T$; it is
-anchored by $B$. Identifying when such a $B$ can be constructed is, to
-our understanding, the core of the continuous-time problem.
+for every $T$ — and such a pair always exists. What the construction
+does not, and cannot, deliver is a numéraire that is *locally
+riskless*. Whether one exists reduces to a decomposition property of
+the terminal bond (Sections 3.3–3.4).
 
 **Why standard extension theorems do not immediately apply.** A
 natural reaction is that the Kolmogorov extension theorem (or its
@@ -381,16 +395,15 @@ restriction: $\mu_{n+1}|_{\mathcal{F}_n} = \mu_n$. Our condition
 (3.1) relates measures on the *same* σ-algebra $\mathcal{F}$ via
 Radon-Nikodym derivatives determined by bond prices. These are
 structurally different: (3.1) specifies how the measures *reweight*
-each other, not how they *restrict*. The passage from pairwise
-reweighting to a global measure requires constructing a process $B$
-such that each $Q^T$ arises as a change of numéraire from $Q$ — a
-stronger condition than mere compatibility of restrictions. We do
-not know whether existing projective limit frameworks (such as
-Balbás et al. 2002) can be adapted to this setting.
+each other, not how they *restrict*. The passage from pairwise reweighting to a global measure turns out
+to require no extension machinery at all: Proposition 3.3.1
+constructs $(Q, B)$ directly from the terminal bond. What no gluing
+argument supplies is the *savings-account property* of the numéraire
+— the genuinely open content (Section 3.3).
 
-## 3.3 The Question, Precisely Stated
+## 3.3 The Question — Posed, Answered, and Re-Posed
 
-The question of this paper:
+A first formalization of the question of this paper reads:
 
 > *Given a family $\{Q^T\}_{T \in [0,T^*]}$ satisfying Definition
 > 3.2.1, does there exist a probability measure $Q \sim \mathbb{P}$
@@ -399,72 +412,314 @@ The question of this paper:
 > $p(\cdot,T)/B$ is a *true* $Q$-martingale, and each $Q^T$ coincides
 > on $\mathcal{F}_T$ with the T-forward measure induced by $Q$?*
 
-The true-martingale requirement on deflated bonds mirrors the
-standing assumption of Definition 3.2.1: it is what makes each
-induced density $Z^T_t = p(t,T)/[B(t)\,p(0,T)]$ a bona fide
-Radon-Nikodym derivative, so that the induced forward measures are
-well-defined.
+The answer, it turns out, is yes — always, and constructively. For
+$T \le T^*$ write
+$$\Lambda^T_t := \frac{d\big(Q^{T}\big|_{\mathcal{F}_t}\big)}{d\big(Q^{T^*}\big|_{\mathcal{F}_t}\big)},
+\qquad t \in [0, T^*],$$
+the density process of $Q^T$ with respect to $Q^{T^*}$: a strictly
+positive $Q^{T^*}$-martingale, with
+$\Lambda^T_s = E^{Q^{T^*}}[\Lambda^T_t \mid \mathcal{F}_s]$ for
+$s \le t$ by the tower property.
 
-In discrete time the answer is yes (Section 2). In continuous time
-it is, to our knowledge, open.
+**Proposition 3.3.1 (Terminal-bond gluing).** *Assume Definition
+3.2.1 — in fact only the forward martingale property for $T = T^*$
+and the true-martingale and consistency conditions for the pairs
+$(T, T^*)$, $T \in [0,T^*]$, are used. Define*
+$$Q := Q^{T^*}, \qquad B(t) := \frac{p(t, T^*)}{p(0, T^*)},
+\qquad t \in [0, T^*].$$
+*Then:*
 
-We note that in the standard HJM framework driven by
-finite-dimensional Brownian motion, the existence of $Q$ is
-equivalent to the HJM drift condition
-$\alpha(t,T) = \sigma(t,T) \cdot \int_t^T \sigma(t,s) \, ds$. The
-"if" direction is textbook (Heath, Jarrow, and Morton 1992). Whether
-forward-measure consistency *forces* the drift condition — the
-"only if" direction — is the non-trivial question. We state this as
-an open problem, not a hypothesis we are in a position to resolve.
-The restriction to finite-dimensional driving noise is substantive;
-under infinite-dimensional noise (cylindrical Brownian motion), the
+*(a) $B$ is strictly positive, adapted, $B(0) = 1$, and is the value
+process of the static self-financing strategy holding $1/p(0,T^*)$
+units of the $T^*$-bond.*
+
+*(b) For every traded asset $S$, the deflated process $S/B$ is a
+$Q$-local martingale (on $[0, T']$ for a bond of maturity $T'$).*
+
+*(c) For every $T \in [0,T^*]$, $p(\cdot,T)/B$ is a* true
+*$Q$-martingale on $[0,T]$.*
+
+*(d) For every $T \in [0,T^*]$ and every $t \in [0,T]$,*
+$$\frac{dQ^{T}}{dQ}\Big|_{\mathcal{F}_t}
+= \frac{p(t,T)}{B(t)\, p(0,T)};$$
+*that is, $Q^T$ coincides on $\mathcal{F}_T$ with the $T$-forward
+measure induced by $(Q, B)$, and this induced measure is well
+defined.*
+
+*Proof.* Fix $T \in [0,T^*]$ and write $M_t := p(t,T)/p(t,T^*)$ for
+$t \in [0,T]$.
+
+*Step 1 (density-process identity).* By (3.1) for the pair
+$(T, T^*)$,
+$$\Lambda^T_{T} = \frac{p(0,T^*)}{p(0,T)\, p(T, T^*)},$$
+which is non-negative with
+$E^{Q^{T^*}}[\Lambda^T_T] = Q^T(\Omega) = 1$, hence integrable. For
+$t \le T$, the tower property of the density martingale gives
+$$\Lambda^T_t
+= E^{Q^{T^*}}\!\big[\Lambda^T_{T} \,\big|\, \mathcal{F}_t\big]
+= \frac{p(0,T^*)}{p(0,T)}\;
+  E^{Q^{T^*}}\!\Big[\frac{1}{p(T,T^*)} \,\Big|\, \mathcal{F}_t\Big].$$
+By the true-martingale hypothesis for the pair $(T, T^*)$, $M$ is a
+true $Q^{T^*}$-martingale on $[0,T]$ with terminal value
+$M_T = 1/p(T,T^*)$; hence
+$E^{Q^{T^*}}[1/p(T,T^*) \mid \mathcal{F}_t] = M_t$ and
+$$\Lambda^T_t
+= \frac{p(0,T^*)}{p(0,T)} \cdot \frac{p(t,T)}{p(t,T^*)},
+\qquad t \in [0, T]. \tag{3.2}$$
+(At $t = 0$ the right-hand side equals $1$; in particular all $Q^T$
+coincide on $\mathcal{F}_0$.)
+
+*Step 2 (claim (a)).* Immediate: $p(\cdot,T^*) > 0$ is adapted,
+$B(0) = 1$, and a constant holding of one asset is self-financing.
+
+*Step 3 (claim (b)).* Since $Q = Q^{T^*}$ and
+$S/B = p(0,T^*)\,\big(S / p(\cdot,T^*)\big)$, claim (b) is the
+forward martingale property for $T = T^*$ multiplied by the constant
+$p(0,T^*)$. No change of measure is involved.
+
+*Step 4 (claim (c)).* $p(\cdot,T)/B = p(0,T^*)\, M$, a true
+$Q^{T^*}$-martingale on $[0,T]$ by the true-martingale hypothesis
+for $(T,T^*)$. For $T = T^*$ the process is the constant
+$p(0,T^*)$.
+
+*Step 5 (claim (d)).* The $T$-forward measure induced by $(Q,B)$ is
+defined, when the deflated bond is a true martingale, by the density
+process
+$$Z^T_t := \frac{p(t,T)/B(t)}{p(0,T)/B(0)}
+= \frac{p(t,T)}{B(t)\,p(0,T)}
+= \frac{p(0,T^*)}{p(0,T)} \cdot \frac{p(t,T)}{p(t,T^*)},
+\qquad t \in [0,T],$$
+using $B(0) = 1$. By Step 4, $Z^T$ is a strictly positive true
+$Q$-martingale with $Z^T_0 = 1$, so the induced measure is a
+well-defined probability measure on $\mathcal{F}_T$. Comparing with
+(3.2), $\Lambda^T_t = Z^T_t$ for all $t \in [0,T]$; hence $Q^T$
+coincides with the induced measure on $\mathcal{F}_T$. $\square$
+
+The construction has a strong converse-style companion: consistency
+against the terminal maturity alone already implies the full
+definition.
+
+**Corollary 3.3.2 (Against-terminal consistency suffices).** *Assume
+the forward martingale property for $T = T^*$ and the true-martingale
+and consistency conditions only for the pairs $(T, T^*)$,
+$T \in [0,T^*]$. Then the true-martingale and consistency conditions
+hold for* all *pairs $T_1 < T_2$; that is, Definition 3.2.1 holds in
+full.*
+
+*Proof.* Fix $T_1 < T_2 \le T^*$. For consistency: all three measures
+are mutually equivalent, so on $\mathcal{F}_{T_1}$ the chain rule for
+Radon-Nikodym derivatives gives, a.s.,
+$$\frac{dQ^{T_1}}{dQ^{T_2}}\Big|_{\mathcal{F}_{T_1}}
+= \frac{\Lambda^{T_1}_{T_1}}{\Lambda^{T_2}_{T_1}}
+= \frac{\dfrac{p(0,T^*)}{p(0,T_1)\,p(T_1,T^*)}}
+       {\dfrac{p(0,T^*)\,p(T_1,T_2)}{p(0,T_2)\,p(T_1,T^*)}}
+= \frac{p(0,T_2)}{p(0,T_1)\, p(T_1,T_2)},$$
+where both density values come from (3.2) (for $T = T_1$ and
+$T = T_2$, evaluated at $t = T_1$), which uses only against-terminal
+hypotheses. For the true-martingale condition: let
+$s \le t \le T_1$ and $X := p(t,T_1)/p(t,T_2) \ge 0$. The abstract
+Bayes formula for the change $Q^{T_2} \leftrightarrow Q^{T^*}$
+(valid for non-negative integrands) gives
+$$E^{Q^{T_2}}\!\big[X \mid \mathcal{F}_s\big]
+= \frac{E^{Q^{T^*}}\!\big[\Lambda^{T_2}_t\, X \mid \mathcal{F}_s\big]}
+       {\Lambda^{T_2}_s}
+= \frac{E^{Q^{T^*}}\!\Big[\dfrac{p(t,T_1)}{p(t,T^*)} \,\Big|\,
+   \mathcal{F}_s\Big]}{\dfrac{p(s,T_2)}{p(s,T^*)}}
+= \frac{p(s,T_1)/p(s,T^*)}{p(s,T_2)/p(s,T^*)}
+= \frac{p(s,T_1)}{p(s,T_2)},$$
+using (3.2) for $T_2$ in the second equality and the true-martingale
+hypothesis for $(T_1,T^*)$ in the third. Taking $s = 0$ yields
+integrability:
+$E^{Q^{T_2}}[\,p(t,T_1)/p(t,T_2)\,] = p(0,T_1)/p(0,T_2) < \infty$.
+$\square$
+
+**What the proposition does and does not deliver.** The numéraire
+exhibited is tradable by a static buy-and-hold strategy — but it is
+*not locally riskless*: $B$ carries the full price risk of the
+terminal bond. The proposition therefore resolves the
+*measure-existence* half of the question unconditionally. What it
+deliberately does not deliver is a *savings account*: a numéraire
+that is predictable and of finite variation (in the absolutely
+continuous case $B(t) = \exp\!\int_0^t r(s)\,ds$ for a short rate
+$r$; in discrete time, a predictable process, as the rolling account
+of Proposition 2.2.1 is). This locally-riskless property is what
+distinguishes a bank account from a bond — and it is precisely the
+clause the first formalization above omits. The question of this
+paper, correctly posed, is therefore:
+
+> *Given a family $\{Q^T\}_{T \in [0,T^*]}$ satisfying Definition
+> 3.2.1, does there exist an* implied savings account *for the
+> family: a probability measure $Q \sim \mathbb{P}$ and a strictly
+> positive predictable process $B$ of finite variation with
+> $B(0) = 1$, such that $p(t,T) = E^{Q}[\,B(t)/B(T) \mid
+> \mathcal{F}_t\,]$ for all $t \le T \le T^*$ and each $Q^T$
+> coincides on $\mathcal{F}_T$ with the $T$-forward measure induced
+> by $(Q, B)$?*
+
+The object in the box is exactly the implied savings account of
+Musiela and Rutkowski (1997) and Döberlein, Schweizer, and Stricker
+(2000) — who proved that such a $B$, when it exists, is unique — with
+one addition: we require it to induce *the given family*, not merely
+to reproduce the bond prices. Döberlein and Schweizer (2001) supply
+the existence mechanism. Call a pair $(R, L)$ — $R \sim \mathbb{P}$,
+$L$ a strictly positive semimartingale with $L_0 = 1$, $L_- > 0$ —
+*good* if $L$ is a special $R$-semimartingale whose multiplicative
+decomposition $L = M C$ (with $M$ a local $R$-martingale, $C$
+predictable of finite variation; Jacod 1979) has $M$ a *true*
+$R$-martingale. Their Theorem 5 shows that a good generating pair
+yields an implied savings account, $B = 1/C$. In our setting the
+natural generating pair is pinned by the family itself:
+
+**Proposition 3.3.3 (Reduction to goodness).** *Let $\{Q^T\}$
+satisfy Definition 3.2.1 and set*
+$$G_t := \frac{p(0, T^*)}{p(t, T^*)}, \qquad t \in [0, T^*].$$
+*Then $(Q^{T^*}, G)$ is a generating pair for the bond prices, i.e.
+$p(t,T) = E^{Q^{T^*}}[\,G_T/G_t \mid \mathcal{F}_t\,]$, and the
+following are equivalent:*
+
+*(i) an implied savings account for the family exists (the boxed
+question above);*
+
+*(ii) the pair $(Q^{T^*}, G)$ is good.*
+
+*In that case $B = 1/C$ and
+$\frac{dQ}{dQ^{T^*}}\big|_{\mathcal{F}_t} = M_t$, where $G = MC$ is
+the multiplicative decomposition.*
+
+*Proof.* That $(Q^{T^*}, G)$ generates the prices is identity (3.2)
+rearranged:
+$E^{Q^{T^*}}[G_T/G_t \mid \mathcal{F}_t]
+= p(t,T^*)\, E^{Q^{T^*}}[1/p(T,T^*) \mid \mathcal{F}_t] = p(t,T)$ by
+the true-martingale hypothesis.
+
+*(ii) $\Rightarrow$ (i).* Let $G = MC$ be the multiplicative
+decomposition with $M$ a true $Q^{T^*}$-martingale, and define $Q$ by
+$\frac{dQ}{dQ^{T^*}}\big|_{\mathcal{F}_t} := M_t$ and $B := 1/C$,
+predictable of finite variation with $B(0) = 1$. Bayes' rule gives
+$$p(t,T) = E^{Q^{T^*}}\!\Big[\frac{M_T C_T}{M_t C_t}
+\,\Big|\, \mathcal{F}_t\Big]
+= E^{Q}\!\Big[\frac{C_T}{C_t} \,\Big|\, \mathcal{F}_t\Big]
+= E^{Q}\!\Big[\frac{B(t)}{B(T)} \,\Big|\, \mathcal{F}_t\Big],$$
+so $p(t,T)/B(t) = E^Q[1/B(T) \mid \mathcal{F}_t]$ is a true
+$Q$-martingale on $[0,T]$. The induced $T$-forward density against
+$Q^{T^*}$ is
+$$\frac{d\tilde Q^T}{dQ^{T^*}}\Big|_{\mathcal{F}_t}
+= M_t \cdot \frac{p(t,T)}{B(t)\, p(0,T)}
+= \frac{G_t\, p(t,T)}{p(0,T)}
+= \frac{p(0,T^*)\, p(t,T)}{p(0,T)\, p(t,T^*)}
+= \Lambda^T_t$$
+by (3.2), so $\tilde Q^T = Q^T$ on $\mathcal{F}_T$ for every $T$: the
+account induces the given family. Finally, for any traded asset $S$,
+$(S/B)\, M = S\, G / p(0,T^*) \cdot p(0,T^*) = p(0,T^*)\,
+S/p(\cdot,T^*)$ up to the constant, a $Q^{T^*}$-local martingale by
+the forward martingale property at $T^*$; by Bayes, $S/B$ is a
+$Q$-local martingale.
+
+*(i) $\Rightarrow$ (ii).* Coincidence at $T = T^*$ gives
+$\frac{dQ^{T^*}}{dQ}\big|_{\mathcal{F}_t}
+= \frac{p(t,T^*)}{B(t)\, p(0,T^*)} = \frac{1}{B(t)\, G_t}$, so
+$M_t := \frac{dQ}{dQ^{T^*}}\big|_{\mathcal{F}_t} = B(t)\, G_t$ is a
+strictly positive true $Q^{T^*}$-martingale. Hence
+$G = M \cdot (1/B)$ with $1/B$ predictable of finite variation: $G$
+is a special $Q^{T^*}$-semimartingale and, by uniqueness of the
+multiplicative decomposition, $(M, 1/B)$ *is* that decomposition, so
+$(Q^{T^*}, G)$ is good. $\square$
+
+Two remarks. First, the construction of Proposition 3.3.1 uses the
+existence of a longest bond $T^* \in \mathcal{T}$; on an unbounded
+maturity set no terminal bond is available and the numéraire must be
+produced as a limit — precisely the roll-over convex-combination
+territory of Klein, Schmidt, and Teichmann (2016). Second, the pair
+$(Q,B)$ inducing a given consistent family is far from unique: any
+strictly positive adapted $\hat B$ with $\hat B(0) = 1$ and
+$\hat B / p(\cdot, T^*)$ a true $Q^{T^*}$-martingale induces the same
+family. Proposition 3.3.1 exhibits the canonical tradable choice;
+the savings-account pair, when it exists, is the canonical locally
+riskless one — and by the uniqueness theorem of Döberlein, Schweizer,
+and Stricker (2000) it is then the only one.
+
+We note the relation to the HJM drift condition. In the HJM
+framework driven by finite-dimensional Brownian motion, the savings
+account is the exponential of the short rate, and the generating pair
+$(Q, 1/\beta)$ is good by construction under the drift condition
+$\alpha(t,T) = \sigma(t,T) \cdot \int_t^T \sigma(t,s) \, ds$
+(cf. Döberlein and Schweizer 2001, Example 3, for the Gaussian case):
+the "if" direction — the drift condition delivers the savings-account
+pair — is textbook (Heath, Jarrow, and Morton 1992). Whether
+consistency of the family *forces* such a structure — the "only if"
+direction — is the open problem in this parametric setting. The
+restriction to finite-dimensional driving noise is substantive; under
+infinite-dimensional noise (cylindrical Brownian motion), the
 question may take a different form.
 
-## 3.4 Where the Obstruction Lives: the Numéraire $B$
+## 3.4 The Residual Gap: Does Consistency Imply Goodness?
 
-By Lemma 2.4.1 the measure family is internally consistent at every
-finite level, so the continuous-time question reduces to a single
-object: can the numéraire $B$ be constructed? Two features make this
-non-automatic, and both are about *continuous trading*, not about the
-cardinality of the maturity set.
+By Propositions 3.3.1 and 3.3.3, the open question of this paper has
+been reduced to a single, sharply localized property: given a family
+satisfying Definition 3.2.1, is the terminal pair $(Q^{T^*}, G)$,
+$G = p(0,T^*)/p(\cdot,T^*)$, necessarily *good*? Goodness can fail in
+exactly three separable ways, and each is a distinct hunting ground
+for a counterexample:
 
-First, $B(t) = \exp\left(\int_0^t r(s)\, ds\right)$ requires the short
-rate $r(s) = f(s,s)$ at every instant. The discrete-time rolling
-strategy (Proposition 2.2.1) builds $B$ as a finite product of
-just-maturing bond returns; in continuous time it becomes a
-continuously rebalanced strategy whose convergence is not guaranteed
-by the well-behavedness of individual bonds. This is a
-continuous-*trading* phenomenon: even with finitely many maturities,
-$B$ need not be constructible for all $t$.
+$(\alpha)$ $G$ fails to be a semimartingale under $Q^{T^*}$;
+$(\beta)$ $G$ is a semimartingale but not special;
+$(\gamma)$ $G$ is special, but the local-martingale factor $M$ in its
+multiplicative decomposition $G = MC$ is a strict local martingale —
+a bubble in the martingale part of the terminal bond.
 
-Second, $r(s) = f(s,s)$ is the diagonal restriction of the forward
-surface $f(s,T)$. A pointwise diagonal evaluation requires more
-regularity than the integrated quantities
-$p(t,T) = \exp(-\int_t^T f(t,u)\,du)$ that the market actually quotes.
-We note this as a *heuristic analogy* with the trace problem in
-functional analysis (where restricting a function to a
-lower-dimensional set requires Sobolev regularity above a threshold),
-not as an established mechanism: the regularity in question is that of
-the *joint* surface near the diagonal $T = t$, and we are aware of no
-evidence that EUR forward surfaces are irregular in this sense —
-indeed their evident smoothness in the maturity direction (which is
-what makes parametric fits such as Svensson viable) cuts the other
-way. We stress, however, that the relevant regularity is the *joint*
-behaviour of $(s,T) \mapsto f(s,T)$ as $T \to s$ — the diagonal-approach
-regularity — which is not the same as marginal smoothness in $T$ at
-fixed $s$; smoothness of each maturity slice does not by itself control
-how the slices behave in the limit $T \to s$. We flag the diagonal as
-the natural place to look for an obstruction, while making no claim
-that one exists.
+A consistent family realizing any one of $(\alpha)$–$(\gamma)$ would
+settle the question negatively; a proof that Definition 3.2.1
+excludes all three would settle it affirmatively. Nothing in the
+definition visibly forces any of them: the axioms constrain
+*ratios* of bond prices under the family members, not the terminal
+bond level itself.
 
-Finally, a logical caveat. Failure to construct $B$ would not mean
-the family $\{Q^T\}$ violates (3.1): a consistent family satisfies
-(3.1) by definition, and Lemma 2.4.1 shows its finite-level coherence
-is automatic. It would mean the consistent family does not arise from any
-single $Q$ via a numéraire change. Whether a consistent family can
-exist *without* an underlying $(Q, B)$ is precisely the open question;
-the discrete case shows it cannot happen there, and we do not know
-whether the continuum admits it.
+The structure of the gap is best seen through a diagonal. For each
+maturity $u \in [0,T^*]$ set $M^{(u)}_s := p(s,u)/p(s,T^*)$,
+$s \in [0,u]$ — by Definition 3.2.1 each of these is a *true*
+$Q^{T^*}$-martingale. Since $p(t,t) = 1$,
+$$G_t = p(0,T^*)\, M^{(t)}_t:$$
+the generator is, up to a constant, the *diagonal* of the martingale
+field $\{M^{(u)}\}$. Consistency controls every *column*
+$s \mapsto M^{(u)}_s$ of the field; goodness constrains the
+*diagonal* $t \mapsto M^{(t)}_t$. Column-wise regularity does not, in
+general, transfer to a diagonal, and this is the precise form of the
+regularity gap we could earlier describe only by analogy with trace
+problems — with the notable difference that it sits in the *time*
+direction, not the maturity direction. The rolling construction of
+Proposition 2.2.1 is the discrete-time shadow of the same object: it
+walks the diagonal one period at a time, and predictability of each
+step is what makes the discrete account locally riskless.
+
+Two structural facts calibrate the difficulty. First, if the family
+has nonnegative rates in the monotonicity sense
+$p(t,S) \ge p(t,T)$ for $S \le T$, then $G$ is a
+$Q^{T^*}$-supermartingale, and positivity plus the supermartingale
+property close channels $(\alpha)$ and $(\beta)$ automatically
+(Döberlein and Schweizer 2001, Propositions 1–2), leaving only the
+bubble channel $(\gamma)$. The 2014–2024 EUR sample of Section 4,
+however, sits in deeply negative-rate territory, where even this
+protection is unavailable. Second, when the implied savings account
+exists and is continuous, it is precisely the value process of the
+roll-over strategy in just maturing bonds (Döberlein and Schweizer
+2001, Theorem 10, generalizing Björk, Di Masi, Kabanov, and
+Runggaldier 1997 to settings without forward rates); the failure of
+that roll-over limit to converge to a finite-variation numéraire may
+be read as the trading-side face of channels $(\alpha)$–$(\gamma)$.
+Forward rates and a short rate exist essentially when the account is
+in addition *absolutely continuous* (Döberlein and Schweizer 2001,
+Proposition 12) — a strictly finer layer than the finite-variation
+existence question posed here, and the layer on which the classical
+$r(t) = f(t,t)$ lives.
+
+Finally, a logical caveat. Failure of goodness would not mean the
+family $\{Q^T\}$ violates (3.1): a consistent family satisfies (3.1)
+by definition, and by Proposition 3.3.1 it always admits the tradable
+terminal-bond representation. It would mean the family admits no
+*locally riskless* representation. The discrete case shows this
+cannot happen there — the rolling account is predictable and of
+finite variation — and we do not know whether the continuum admits
+it.
 
 
 
